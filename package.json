@@ -1,0 +1,30 @@
+{
+  "name": "FURY",
+  "version": "1.0.0",
+  "description": "The Project Fury web service",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Macro303/Heroku_Fury.git"
+  },
+  "keywords": [
+    "MEAN",
+    "Express",
+    "Angular"
+  ],
+  "author": "ShinyChrome",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Macro303/Heroku_Fury"
+  },
+  "homepage": "https://github.com/Macro303/Heroku_Fury",
+  "dependencies": {
+    "body-parser": "^1.13.3",
+    "express": "^4.13.3",
+    "mongodb": "^2.0.43"
+  }
+}

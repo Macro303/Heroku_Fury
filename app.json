@@ -1,0 +1,8 @@
+{
+  "name": "Project Fury Web service",
+  "description": "The Project Fury web service",
+  "repository": "https://github.com/Macro303/Heroku_Fury",
+  "logo": "https://mlab.com/company/brand/resources/mLab-logo-onlight.png",
+  "keywords": ["node", "express", "angular", "MEAN", "mongodb", "REST", "API"],
+  "addons": ["mongolab"]
+}
