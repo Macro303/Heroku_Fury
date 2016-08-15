@@ -50,7 +50,7 @@ router.route('/users')
 .get( function( request, response ) {
 	// Test function
 	response.json( { 'message':'get all users' } );
-});
+})
 
 // create a user
 .post( function( request, response ) {
@@ -65,13 +65,13 @@ router.route('/users:user_id')
 .get( function( request, response ) {
 	// Test function
 	response.json( { 'message':'get user for user_id' } );
-});
+})
 
 // update a user for user_id
 .put( function( request, response ) {
 	// Test function
 	response.json( { 'message':'update a user for user_id' } );
-});
+})
 
 // delete a user for user_id
 .delete( function( request, response ) {
