@@ -17,11 +17,7 @@ app.use( bodyParser.json() );
 // Set up the port for listening
 var port = process.env.PORT || 8080;
 var router = express.Router();
-app.use( '/api', router );
 
-// Sets the port to listen on
-app.listen( port );
-console.log( 'App now running on port' + port );
 
 // Generic error handler used by all endpoints.
 function handleError( res, reason, message, code ) {
@@ -55,3 +51,9 @@ router.get( '/users', function(request, response ) {
 
 
 //=============================================================================================
+
+app.use( '/api', router );
+
+// Sets the port to listen on
+app.listen( port );
+console.log( 'App now running on port' + port );
