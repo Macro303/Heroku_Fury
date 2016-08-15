@@ -49,12 +49,14 @@ router.route('/users')
 // get all users
 .get( function( request, response ) {
 	// Test function
+	console.log('Get all users invoked');
 	response.json( { 'message':'get all users' } );
 })
 
 // create a user
 .post( function( request, response ) {
 	// Test function
+	console.log('Create a user invoked');
 	response.json( { 'message':'create user' } );
 });
 
@@ -64,18 +66,21 @@ router.route('/users:user_id')
 // get a user for user_id
 .get( function( request, response ) {
 	// Test function
+	console.log('Get a user for user_id invoked');
 	response.json( { 'message':'get user for user_id' } );
 })
 
 // update a user for user_id
 .put( function( request, response ) {
 	// Test function
+	console.log('Update a user for user_id invoked');
 	response.json( { 'message':'update a user for user_id' } );
 })
 
 // delete a user for user_id
 .delete( function( request, response ) {
 	// Test function
+	console.log('Delete a user for user_id invoked');
 	response.json( { 'message':'delete user for user_id' } );
 });
 
