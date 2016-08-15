@@ -68,7 +68,8 @@ router.route('/users:user_id')
 .get( function( request, response ) {
 	// Test function
 	console.log('Get a user for user_id invoked');
-	response.json( { 'message':'get user for user_id' } );
+	var userid = request.params.user_id;
+	response.json( { 'userID': userid, 'first-name':'Seymour', 'last-name':'Butts' } );
 })
 
 // update a user for user_id
