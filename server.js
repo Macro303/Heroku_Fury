@@ -16,7 +16,8 @@ app.use( bodyParser.json() );
 
 var port = process.env.PORT || 8080;
 
-
+var router = express.Router();
+app.use( '/api', router );
 
 /*  // Initialize the server.
   var server = app.listen( process.env.PORT || 8080, function () {
@@ -43,8 +44,7 @@ router.get( '/', function(request, response ) {
 
 // TBA
 
-var router = express.Router();
-app.use( '/api', router );
+
 
 
 app.listen( port );
