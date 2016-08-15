@@ -11,6 +11,7 @@ var bodyParser = require( "body-parser" );
 var app = express();
 
 //app.use( express.static(_dirname + "/public" ) );
+app.use( bodyParser.urlencoded( { extended: true } ) );
 app.use( bodyParser.json() );
 
 var port = process.env.PORT || 8080;
@@ -34,7 +35,7 @@ function handleError( res, reason, message, code ) {
 //=============================================================================================
 
 router.get( '/', function(request, response ) {
-	response.json( { message:'Howdy pardner, Test sucessful! Good job pal!' } );
+	response.json( { 'message' :'Howdy pardner, Test sucessful! Good job pal!' } );
 });
 
 // USER API ROUTES
