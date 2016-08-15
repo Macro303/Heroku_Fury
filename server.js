@@ -28,7 +28,7 @@ function handleError( res, reason, message, code ) {
 //=============================================================================================
 
 
-router.use( function( request, response, next ) ){
+router.use( function( request, response, next ) {
 	console.log('Loading........');
 	next();
 });
