@@ -28,10 +28,16 @@ function handleError( res, reason, message, code ) {
   console.log( "ERROR: " + reason );
   res.status( code || 500).json( { "error": message } );
 }
-
-// TEST API ROUTE
+// API routes
 //=============================================================================================
 
+
+router.use( function( request, response, next ) ){
+	console.log('Loading........');
+	next();
+});
+
+// TEST API ROUTE
 router.get( '/', function(request, response ) {
 	response.json( { 'message' :'Howdy pardner, Test sucessful! Good job pal!' } );
 });
@@ -43,7 +49,9 @@ router.get( '/users', function(request, response ) {
 	response.json( { 'First-name' :'Jimmy', 'Last-name':'Carter' } );
 });
 
-
+router.get( '/users', function(request, response ) {
+	response.json( { 'First-name' :'Jimmy', 'Last-name':'Carter' } );
+});
 
 
 //=============================================================================================
