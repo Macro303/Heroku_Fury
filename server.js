@@ -40,8 +40,9 @@ router.get( '/', function(request, response ) {
 
 // USER API ROUTES
 //=============================================================================================
+router.route('users')
 
-router.get( '/users', function(request, response ) {
+.get( function( request, response ) {
 	response.json( { 'First-name' :'Jimmy', 'Last-name':'Carter' } );
 });
 
