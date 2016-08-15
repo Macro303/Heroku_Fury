@@ -13,7 +13,7 @@ var ObjectID = mongodb.ObjectID;
 // Express Definition
 var app = express();
 
-//app.use(express.static(_dirname + "/public"));
+app.use(express.static(_dirname + "/public"));
 app.use( bodyParser.urlencoded( { extended: true } ) );
 app.use( bodyParser.json() );
 
