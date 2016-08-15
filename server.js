@@ -14,17 +14,17 @@ var app = express();
 app.use( bodyParser.urlencoded( { extended: true } ) );
 app.use( bodyParser.json() );
 
-//var port = process.env.PORT || 8080;
+var port = process.env.PORT || 8080;
 
 var router = express.Router();
 app.use( '/api', router );
 
-// Initialize the server.
+/*  // Initialize the server.
   var server = app.listen( process.env.PORT || 8080, function () {
     var port = server.address().port;
     console.log( "App now running on port", port );
   });
-});
+});*/
 
 // Generic error handler used by all endpoints.
 function handleError( res, reason, message, code ) {
@@ -46,8 +46,8 @@ router.get( '/', function(request, response ) {
 
 
 
-/*
+
 app.listen( port );
-console.log( 'App now running on port' + port );*/
+console.log( 'App now running on port' + port );
 
 //=============================================================================================
