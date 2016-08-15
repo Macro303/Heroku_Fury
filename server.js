@@ -37,6 +37,7 @@ router.use( function( request, response, next ) {
 // TEST API ROUTE
 router.get( '/', function(request, response ) {
 	// Test connection message
+	console.log('Testing API');
 	response.json( { 'message' :'Howdy pardner, Test sucessful! Good job pal!' } );
 });
 
