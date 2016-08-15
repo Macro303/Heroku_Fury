@@ -45,10 +45,6 @@ router.get( '/users', function(request, response ) {
 	response.json( { 'First-name' :'Jimmy', 'Last-name':'Carter' } );
 });
 
-router.get( '/users', function(request, response ) {
-	response.json( { 'First-name' :'Jimmy', 'Last-name':'Carter' } );
-});
-
 
 //=============================================================================================
 
