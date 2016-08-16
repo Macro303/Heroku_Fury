@@ -59,8 +59,8 @@ router.route('/users')
 	// Test function
 	console.log('Create a user invoked');
 	var userid = 636;
-	var firstName = request.body.first-name;
-	var lastName = request.body.last-name;
+	var firstName = request.body.firstName;
+	var lastName = request.body.lastName;
 	response.json( { 'userID': userid, 'first-name':firstName, 'last-name':lastName } );
 });
 
