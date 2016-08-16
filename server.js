@@ -9,7 +9,11 @@ var bodyParser = require( "body-parser" );
 var app = express();
 
 // Database set-up
+var mongoose = require("mongoose");
+// mongoose.connect('');
 
+// Schema models
+var User = require('./app/models/user');
 
 //app.use( express.static(_dirname + "/public" ) ); <---- Unsure if necessary
 app.use( bodyParser.urlencoded( { extended: true } ) );
@@ -42,6 +46,7 @@ router.get( '/', function(request, response ) {
 	// Test connection message
 	console.log('Testing API');
 	response.json( { 'message' :'Howdy pardner, Test sucessful! Good job pal!' } );
+	// Test connection message ended
 });
 
 // USER API ROUTES
@@ -55,6 +60,7 @@ router.route('/users')
 	// Test function
 	console.log('Get all users invoked');
 	response.json( { 'message':'get all users' } );
+	// Test function ended
 })
 
 // create a user
@@ -65,6 +71,7 @@ router.route('/users')
 	var firstName = request.body.firstName;
 	var lastName = request.body.lastName;
 	response.json( { 'userID': userid, 'first-name':firstName, 'last-name':lastName } );
+	// Test function ended
 });
 
 // *****Main Route for /users:user_id******
@@ -76,6 +83,7 @@ router.route('/users/:user_id')
 	console.log('Get a user for user_id invoked');
 	var userid = request.params.user_id;
 	response.json( { 'userID': userid, 'first-name':'Seymour', 'last-name':'Butts' } );
+	// Test function ended
 })
 
 // update a user for user_id
@@ -83,6 +91,7 @@ router.route('/users/:user_id')
 	// Test function
 	console.log('Update a user for user_id invoked');
 	response.json( { 'message':'update a user for user_id' } );
+	// Test function ended
 })
 
 // delete a user for user_id
@@ -90,11 +99,13 @@ router.route('/users/:user_id')
 	// Test function
 	console.log('Delete a user for user_id invoked');
 	response.json( { 'message':'delete user for user_id' } );
+	// Test function ended
 });
 
 
 //=============================================================================================
 
+// Sets 
 app.use( '/api', router );
 
 // Sets the port to listen on
