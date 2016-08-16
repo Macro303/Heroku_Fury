@@ -7,10 +7,7 @@
 var express = require( "express" );
 var bodyParser = require( "body-parser" );
 var app = express();
-
-// Database set-up
 var mongoose = require("mongoose");
-// mongoose.connect('');
 
 // Schema models
 var User = require('./app/models/user');
@@ -21,6 +18,19 @@ app.use( bodyParser.json() );
 
 // Set up the port for listening
 var port = process.env.PORT || 8080;
+
+// Initialise MLabs DB connect string
+var uristring = process.env.MONGODB_URI;
+
+// Database set-up
+mongoose.connect( uristring, function( error, response ) {
+	if(error){
+		console.log( 'ERROR connecting to DB. ' + error );
+	}
+	else{
+		console.log( 'SUCCESS connected to DB' );
+	}
+});
 
 // Get an instance of the Express Router
 var router = express.Router();
@@ -105,7 +115,7 @@ router.route('/users/:user_id')
 
 //=============================================================================================
 
-// Sets 
+// Sets prefix for all routes
 app.use( '/api', router );
 
 // Sets the port to listen on
