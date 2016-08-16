@@ -103,16 +103,14 @@ router.route('/users')
 	});
 	
 	// save user to db
-	newUser.save( function( err ) ){
+	newUser.save( function( err ) {
 		if (err){
 			throw err;
 		}
 		else{
 			console.log('User created!');
 		}
-		
-	}
-	
+	});
 	// Test function ended
 });
 
