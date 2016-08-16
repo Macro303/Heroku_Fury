@@ -58,7 +58,10 @@ router.route('/users')
 .post( function( request, response ) {
 	// Test function
 	console.log('Create a user invoked');
-	response.json( { 'message':'create user' } );
+	var userid = 636;
+	var firstName = request.body.first-name;
+	var lastName = request.body.last-name;
+	response.json( { 'userID': userid, 'first-name':firstName, 'last-name':lastName } );
 });
 
 // *****Main Route for /users:user_id******
