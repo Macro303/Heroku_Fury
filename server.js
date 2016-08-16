@@ -6,10 +6,10 @@
 // Package calls
 var express = require( "express" );
 var bodyParser = require( "body-parser" );
-var app = express();
 var mongoose = require("mongoose");
+var app = express();
 
-//app.use( express.static(_dirname + "/public" ) ); <---- Unsure if necessary
+
 app.use( bodyParser.urlencoded( { extended: true } ) );
 app.use( bodyParser.json() );
 

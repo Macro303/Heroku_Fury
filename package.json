@@ -1,9 +1,9 @@
 {
-  "name": "MEAN",
+  "name": "fury-web",
   "version": "1.0.0",
   "description": "The Project Fury web service",
   "engines": {
-    "node": "5.9.1"
+    "node": ">=6.x"
   },
   "main": "server.js",
   "scripts": {
@@ -13,5 +13,6 @@
     "body-parser": "^1.13.3",
     "express": "^4.13.3",
     "mongodb": "^2.0.43"
+	"mongoose": "^4.5.0",
   }
 }
