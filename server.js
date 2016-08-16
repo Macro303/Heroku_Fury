@@ -45,18 +45,12 @@ var Schema = mongoose.Schema;
 
  var userSchema = new Schema({
 	username: { type: String, required:true, unique:true },
-	name: { 
-		first: String,
-		last: { type:String, trim:true }
-	},
+	name: type:String,
 	password: { type:String, required:true },
 	admin: Boolean
-	created_at: Date,
-	updated_at: Date
-	
 });
 
-var User = mongoose.model( 'User', userschema);
+var User = mongoose.model( 'Users', userSchema );
 
 // API routes
 //=============================================================================================
@@ -96,8 +90,8 @@ router.route('/users')
 	
 	// creating a test user
 	var newUser = new User({
-		name: { first: 'Peter', last: 'Quill'},
 		username: 'starlord',
+		name: 'Peter Quill'},
 		password: 'password',
 		admin: true
 	});
@@ -105,7 +99,7 @@ router.route('/users')
 	// save user to db
 	newUser.save( function( err ) {
 		if (err){
-			throw err;
+			console.log('Error on save!')
 		}
 		else{
 			console.log('User created!');
