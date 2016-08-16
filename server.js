@@ -62,7 +62,7 @@ router.route('/users')
 });
 
 // *****Main Route for /users:user_id******
-router.route('/users?user_id=:user_id')
+router.route('/users/:user_id')
 
 // get a user for user_id
 .get( function( request, response ) {
