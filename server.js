@@ -40,8 +40,23 @@ function handleError( res, reason, message, code ) {
 }
 
 // Schema models
-//var User = require('./app/models/user');
+//var User = require('./app/models/user.js');
+var Schema = mongoose.Schema;
 
+ var userSchema = new Schema({
+	username: { type: String, required:true, unique:true },
+	name { 
+		first: String,
+		last: { type:String, trim:true }
+	},
+	password: { type:String, required:true },
+	admin: Boolean
+	created_at: Date,
+	updated_at: Date
+	
+});
+
+var User = mongoose.model( 'User', userschema);
 
 // API routes
 //=============================================================================================
@@ -78,10 +93,26 @@ router.route('/users')
 .post( function( request, response ) {
 	// Test function
 	console.log('Create a user invoked');
-	var userid = 1337;
-	var firstName = request.body.firstName;
-	var lastName = request.body.lastName;
-	response.json( { 'userID': userid, 'first-name':firstName, 'last-name':lastName } );
+	
+	// creating a test user
+	var newUser = new User({
+		name: { first: 'Peter', last: 'Quill'},
+		username: 'starlord',
+		password: 'password',
+		admin: true
+	});
+	
+	// save user to db
+	newUser.save( function( err ) ){
+		if (err){
+			throw err;
+		}
+		else{
+			console.log('User created!');
+		}
+		
+	}
+	
 	// Test function ended
 });
 
