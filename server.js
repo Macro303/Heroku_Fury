@@ -9,9 +9,6 @@ var bodyParser = require( "body-parser" );
 var app = express();
 var mongoose = require("mongoose");
 
-// Schema models
-var User = require('./app/models/user');
-
 //app.use( express.static(_dirname + "/public" ) ); <---- Unsure if necessary
 app.use( bodyParser.urlencoded( { extended: true } ) );
 app.use( bodyParser.json() );
@@ -41,6 +38,10 @@ function handleError( res, reason, message, code ) {
   console.log( "ERROR: " + reason );
   res.status( code || 500 ).json( { "error": message } );
 }
+
+// Schema models
+//var User = require('./app/models/user');
+
 
 // API routes
 //=============================================================================================
