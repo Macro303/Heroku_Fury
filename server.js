@@ -127,9 +127,18 @@ router.route('/users/:user_id')
 
 // delete a user for user_id
 .delete( function( request, response ) {
+	
 	// Test function
 	console.log('Delete a user for user_id invoked');
-	response.json( { 'message':'delete user for user_id' } );
+	User.findOneAndRemove({ username: 'Starlord'}, function( err )
+		if (err){
+			console.log('Error on delete!')
+		}
+		else{
+			console.log('User deleted!');
+		}
+	});
+	response.json( { 'message':'user deleted!' } );
 	// Test function ended
 });
 
