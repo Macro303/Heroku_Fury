@@ -48,8 +48,10 @@ var userSchema = new mongoose.Schema({
 	name: String,
 	password: String
 });
-*/
+
 var User = mongoose.model( 'Users', userSchema );
+*/
+
 
 // API routes
 //=============================================================================================
