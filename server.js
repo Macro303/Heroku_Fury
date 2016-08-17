@@ -95,13 +95,12 @@ router.route('/users')
 	
 	// save user to db
 	newUser.save( function( err ) {
-		if (err){
+		if (err)
 			response.send( error )
 	
 	response.json( newUser );
 	});
 	
-	// Test function ended
 });
 
 // *****Main Route for /users:username******
