@@ -133,9 +133,7 @@ router.route('/users/:username')
 			response.send( err );
 		
 		response.json( user );
-		});
 	});
-	// Test function ended
 })
 
 // delete a user for username
