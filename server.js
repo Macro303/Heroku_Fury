@@ -40,14 +40,15 @@ function handleError( res, reason, message, code ) {
 }
 */
 // Schema models
-//var User = require('./app/models/user.js');
+var User = require('./app/models/user.js');
 
- var userSchema = new mongoose.Schema({
+/*
+var userSchema = new mongoose.Schema({
 	username: String,
 	name: String,
-	password: String,
+	password: String
 });
-
+*/
 var User = mongoose.model( 'Users', userSchema );
 
 // API routes
