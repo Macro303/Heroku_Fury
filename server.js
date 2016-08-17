@@ -118,7 +118,6 @@ router.route('/users/:username')
 		
 		response.json( user );
 	});
-	
 })
 
 // update a user for username
@@ -129,7 +128,7 @@ router.route('/users/:username')
 	var usernameParams = request.params.username;
 	var newPassword = request.body.newPassword;
 	
-	User.findOneAndUpdate({ username:usernameParams }, { password:newPassword } function( err, user ) {
+	User.findOneAndUpdate({ username:usernameParams }, { password:newPassword }, function( err, user ) {
 		if ( err )
 			response.send( err );
 		
