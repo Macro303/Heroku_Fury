@@ -39,6 +39,7 @@ function handleError( res, reason, message, code ) {
   res.status( code || 500 ).json( { "error": message } );
 }
 */
+
 // Schema models
 var User = require('./app/models/user.js');
 
@@ -67,7 +68,6 @@ router.route('/users')
 
 // get all users
 .get( function( request, response ) {
-	console.log('Get all users invoked');
 	
 	User.find({}, function( err,users ) {
 		if( err )
@@ -80,25 +80,20 @@ router.route('/users')
 // create a user
 .post( function( request, response ) {
 
-	console.log('Create a user invoked');
-	
 	var newUsername = request.body.username;
 	var newName = request.body.name;
 	var newPassword = request.body.password;
-	
-	// creating a test user
 	var newUser = new User({
 		username: newUsername,
 		name: newName,
 		password: newPassword
 	});
 	
-	// save user to db
 	newUser.save( function( err ) {
 		if (err)
-			response.send( error )
-	
-	response.json( newUser );
+			response.send( err )
+		
+		response.json( newUser );
 	});
 	
 });
@@ -109,9 +104,7 @@ router.route('/users/:username')
 // get a user for username
 .get( function( request, response ) {
 	
-	console.log('Get a user for username invoked');
 	var usernameParams = request.params.username;
-	
 	User.find({ username: usernameParams }, function( err, user ) {
 		if ( err )
 			response.send( err );
@@ -122,12 +115,9 @@ router.route('/users/:username')
 
 // update a user for username
 .put( function( request, response ) {
-	// Test function
-	console.log('Update a user for username invoked');
 	
 	var usernameParams = request.params.username;
 	var newPassword = request.body.newPassword;
-	
 	User.findOneAndUpdate({ username:usernameParams }, { password:newPassword }, function( err, user ) {
 		if ( err )
 			response.send( err );
@@ -139,9 +129,7 @@ router.route('/users/:username')
 // delete a user for username
 .delete( function( request, response ) {
 	
-	console.log('Delete a user for username invoked');
 	var usernameParams = request.params.username;
-	
 	User.findOneAndRemove({ username: usernameParams }, function( err ) {
 		if ( err )
 			response.send( err );
@@ -149,8 +137,6 @@ router.route('/users/:username')
 		response.json( { 'user':usernameParams, 'message':'successfully deleted' } );
 	});
 });
-
-
 //=============================================================================================
 
 // Sets prefix for all routes
