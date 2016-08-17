@@ -134,10 +134,18 @@ router.route('/users/:username')
 	
 	// Test function
 	console.log('Delete a user for username invoked');
-	User.find({ username: 'Starlord'}, function( err, user ) {
+	var usernameParams = request.params.username;
+	
+	User.find({ username: usernameParams }, function( err, user ) {
 		if (err)
 			response.send( err );
-		response.json( { 'message':'user deleted!' } );
+		
+		user.remove( function( err ) {
+			if ( err )
+				response.send( err );
+			
+			response.json( { 'user': user.username, 'message': ' successfully deleted' } );
+		});
 	});
 	// Test function ended
 });
