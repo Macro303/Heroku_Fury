@@ -132,7 +132,7 @@ router.route('/users/:user_id')
 	
 	// Test function
 	console.log('Delete a user for user_id invoked');
-	User.findOneAndRemove({ username: 'Starlord'}, function( err )
+	User.findOneAndRemove({ username: 'Starlord'}, function( err ) {
 		if (err){
 			console.log('Error on delete!')
 		}
