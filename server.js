@@ -127,19 +127,13 @@ router.route('/users/:username')
 	console.log('Update a user for username invoked');
 	
 	var usernameParams = request.params.username;
-	var newUsername = request.body.newUsername;
+	var newPassword = request.body.newPassword;
 	
-	User.find({ username: usernameParams }, function( err1, user ) {
-		if ( err1 )
-			response.send( err1 );
+	User.findOneAndUpdate({ username:usernameParams }, { password:newPassword } function( err, user ) {
+		if ( err )
+			response.send( err );
 		
-		user.username = newUsername;
-		
-		user.save( function( err2 ) {
-			if ( err2 )
-				response.send( err2 );
-		
-		response.json({ 'oldUsername':usernameParams, 'changedUsername':newUsername });
+		response.json( user );
 		});
 	});
 	// Test function ended
@@ -151,16 +145,11 @@ router.route('/users/:username')
 	console.log('Delete a user for username invoked');
 	var usernameParams = request.params.username;
 	
-	User.find({ username: usernameParams }, function( err1, user ) {
-		if ( err1 )
-			response.send( err1 );
+	User.findOneAndRemove({ username: usernameParams }, function( err ) {
+		if ( err )
+			response.send( err );
 		
-		user.remove( function( err2 ) {
-			if ( err2 )
-				response.send( err2 );
-			
-			response.json( { 'user':user.username, 'message':'successfully deleted' } );
-		});
+		response.json( { 'user':usernameParams, 'message':'successfully deleted' } );
 	});
 });
 
