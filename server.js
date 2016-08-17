@@ -42,17 +42,6 @@ function handleError( res, reason, message, code ) {
 // Schema models
 var User = require('./app/models/user.js');
 
-/*
-var userSchema = new mongoose.Schema({
-	username: String,
-	name: String,
-	password: String
-});
-
-var User = mongoose.model( 'Users', userSchema );
-*/
-
-
 // API routes
 //=============================================================================================
 
@@ -80,7 +69,13 @@ router.route('/users')
 .get( function( request, response ) {
 	// Test function
 	console.log('Get all users invoked');
-	response.json( { 'message':'get all users' } );
+	
+	User.find({}, function( err,users ) {
+		if( err )
+			response.send( err );
+		
+		response.json( users );
+	});
 	// Test function ended
 })
 
