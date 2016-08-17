@@ -21,7 +21,7 @@ var uristring = process.env.MONGODB_URI;
 
 // Database set-up
 mongoose.connect( uristring, function( error, response ) {
-	if(error){
+	if( error ){
 		console.log( 'ERROR connecting to DB. ' + error );
 	}
 	else{
@@ -32,22 +32,20 @@ mongoose.connect( uristring, function( error, response ) {
 // Get an instance of the Express Router
 var router = express.Router();
 
-
+/* Not used yet
 // Generic error handler used by all endpoints.
 function handleError( res, reason, message, code ) {
   console.log( "ERROR: " + reason );
   res.status( code || 500 ).json( { "error": message } );
 }
-
+*/
 // Schema models
 //var User = require('./app/models/user.js');
-var Schema = mongoose.Schema;
 
- var userSchema = new Schema({
-	username: { type: String, required:true, unique:true },
-	name: type:String,
-	password: { type:String, required:true },
-	admin: Boolean
+ var userSchema = new mongoose.Schema({
+	username: String,
+	name: String,
+	password: String,
 });
 
 var User = mongoose.model( 'Users', userSchema );
@@ -90,10 +88,9 @@ router.route('/users')
 	
 	// creating a test user
 	var newUser = new User({
-		username: 'starlord',
-		name: 'Peter Quill'},
+		username: 'Starlord',
+		name: 'Peter Quill',
 		password: 'password',
-		admin: true
 	});
 	
 	// save user to db
