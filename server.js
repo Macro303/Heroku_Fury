@@ -79,27 +79,28 @@ router.route('/users')
 
 // create a user
 .post( function( request, response ) {
-	// Test function
+
 	console.log('Create a user invoked');
+	
+	var newUsername = request.body.username;
+	var newName = request.body.name;
+	var newPassword = request.body.password;
 	
 	// creating a test user
 	var newUser = new User({
-		username: 'Starlord',
-		name: 'Peter Quill',
-		password: 'password',
+		username: newUsername,
+		name: newName,
+		password: newPassword
 	});
 	
 	// save user to db
 	newUser.save( function( err ) {
 		if (err){
-			console.log('Error on save!')
-		}
-		else{
-			console.log('User created!');
-		}
+			response.send( error )
+	
+	response.json( newUser );
 	});
 	
-	response.json( { 'message':'user created' } );
 	// Test function ended
 });
 
