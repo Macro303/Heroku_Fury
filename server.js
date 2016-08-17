@@ -67,7 +67,6 @@ router.route('/users')
 
 // get all users
 .get( function( request, response ) {
-	// Test function
 	console.log('Get all users invoked');
 	
 	User.find({}, function( err,users ) {
@@ -76,7 +75,6 @@ router.route('/users')
 		
 		response.json( users );
 	});
-	// Test function ended
 })
 
 // create a user
@@ -105,40 +103,42 @@ router.route('/users')
 	// Test function ended
 });
 
-// *****Main Route for /users:user_id******
-router.route('/users/:user_id')
+// *****Main Route for /users:username******
+router.route('/users/:username')
 
-// get a user for user_id
+// get a user for username
 .get( function( request, response ) {
-	// Test function
-	console.log('Get a user for user_id invoked');
-	var userid = request.params.user_id;
-	response.json( { 'userID': userid, 'first-name':'Seymour', 'last-name':'Butts' } );
-	// Test function ended
+	
+	console.log('Get a user for username invoked');
+	var usernameParams = request.params.username;
+	
+	User.find({ username: usernameParams }, function( err, user ) {
+		if ( err )
+			response.send( err );
+		
+		response.json( user );
+	});
+	
 })
 
-// update a user for user_id
+// update a user for username
 .put( function( request, response ) {
 	// Test function
-	console.log('Update a user for user_id invoked');
-	response.json( { 'message':'update a user for user_id' } );
+	console.log('Update a user for username invoked');
+	response.json( { 'message':'update a user for username' } );
 	// Test function ended
 })
 
-// delete a user for user_id
+// delete a user for username
 .delete( function( request, response ) {
 	
 	// Test function
-	console.log('Delete a user for user_id invoked');
-	User.findOneAndRemove({ username: 'Starlord'}, function( err ) {
-		if (err){
-			console.log('Error on delete!')
-		}
-		else{
-			console.log('User deleted!');
-		}
+	console.log('Delete a user for username invoked');
+	User.find({ username: 'Starlord'}, function( err, user ) {
+		if (err)
+			response.send( err );
+		response.json( { 'message':'user deleted!' } );
 	});
-	response.json( { 'message':'user deleted!' } );
 	// Test function ended
 });
 
