@@ -102,6 +102,8 @@ router.route('/users')
 			console.log('User created!');
 		}
 	});
+	
+	response.json( { 'message':'user created' } );
 	// Test function ended
 });
 
