@@ -69,6 +69,9 @@ router.route('/users')
 // get all users
 .get( function( request, response ) {
 	
+	var statusCode;
+	var error;
+	
 	User.find({}, function( err,users ) {
 		if( err )
 			response.send( err );
@@ -81,12 +84,15 @@ router.route('/users')
 .post( function( request, response ) {
 
 	var newUsername = request.body.username;
-	var newName = request.body.name;
 	var newPassword = request.body.password;
+	var newAdminFlag = request.body.admin;
+	var newEmail = request.body.email;
+	
 	var newUser = new User({
 		username: newUsername,
-		name: newName,
-		password: newPassword
+		password: newPassword,
+		email:newEmail,
+		admin:newAdminFlag
 	});
 	
 	newUser.save( function( err ) {
