@@ -115,7 +115,9 @@ router.route('/users/:username')
 .get( function( request, response ) {
 	
 	var usernameParams = request.params.username;
-	User.find({ username: usernameParams }, function( err, user ) {
+	var query = { username: usernameParams };
+	
+	User.find( query, function( err, user ) {
 		if( err ){
 			handleError( response, err.message, "Failed to get the user." );
 		}
@@ -132,10 +134,11 @@ router.route('/users/:username')
 	var newPassword = request.body.password;
 	var newEmail = request.body.email;
 	
+	var query = { username:usernameParams };
+	var newData = { password:newPassword, email:newEmail, updated_at:Date.now };
 	
-	User.findOneAndUpdate({ username:usernameParams }, 
-						  { password:newPassword, email:newEmail, updated_at:Date.now }, 
-						  function( err, user ) {
+	
+	User.findOneAndUpdate( query, newData, function( err, user ) {
 		if( err ){
 			if( err.code == 11000 || err.code == 11001 ){
 				handleError( response, err.message, "User already exists." );
@@ -145,7 +148,7 @@ router.route('/users/:username')
 			}
 		}
 		else{
-			response.status(204).json( user );
+			response.status(204).end();
 		}
 	});
 })
@@ -159,7 +162,7 @@ router.route('/users/:username')
 			handleError( response, err.message, "Failed to delete a user." );
 		}
 		else{
-			response.status(204).json( { 'deleted':1 } );
+			response.status(204).end();
 		}
 	});
 });
