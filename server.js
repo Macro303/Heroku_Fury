@@ -13,13 +13,15 @@ var app = express();
 
 // Authentication packages ======
 var jwt = require("jsonwebtoken");
-var config = require('./config');
+// var config = require('./config');
 
 // Setup for bodyParser ======
 app.use( bodyParser.urlencoded( { extended: true } ) );
 app.use( bodyParser.json() );
 
-app.set('secretSquirrel', config.secret);
+//app.set('secretSquirrel', config.secret);
+
+var secret = { 'secret':'afriendlymongoosesatontherock' };
 
 // Set up the port for listening ======
 var port = process.env.PORT || 8080;
@@ -89,12 +91,14 @@ router.route('/authentication')
 					handleError( response, err.message, "Authentication Failed." );
 				}
 				else{
-					var token = jwt.sign( user, app.get('secretSquirrel'), { expiresInMinutes:1440 } );
+					var token = jwt.sign( user, secret, { expiresInMinutes:1440 }, function( err, token) );
 					
-					response.json({
-						success:true,
-						token:token
-					});
+					if( err ){
+						handleError( response, err.message, "Authentication Failed." );
+					}
+					else{
+						response.json({ success:true, token:token });
+					}
 				}
 			}
 		}
