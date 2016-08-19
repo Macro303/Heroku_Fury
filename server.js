@@ -73,7 +73,9 @@ router.get( '/', function(request, response ) {
 // AUTHENTICATION API ROUTES ======
 
 // *****Main route for authentication*****
-router.post( '/authentication', function( request, response ) {
+router.route( '/authentication' )
+
+.post( function( request, response ) {
 	 
 	var loginUsername = request.body.username;
 	var query = { username:loginUsername };
