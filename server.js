@@ -75,9 +75,10 @@ router.get( '/', function(request, response ) {
 // *****Main route for authentication*****
 router.post( '/authentication', function( request, response ) {
 	 
-	var query = { username:request.body.username };
+	var loginUsername = request.body.username;
+	var query = { username:loginUsername };
 	
-	User.findOne( query, function( err,user ){
+	User.find( query, function( err,user ){
 		if( err ){
 			handleError( response, err.message, "Failed to complete authentication." );
 		}
