@@ -6,24 +6,40 @@
 // Package calls
 var express = require( "express" );
 var bodyParser = require( "body-parser" );
+var mongoose = require("mongoose");
 var app = express();
 
-//app.use( express.static(_dirname + "/public" ) ); <---- Unsure if necessary
+
 app.use( bodyParser.urlencoded( { extended: true } ) );
 app.use( bodyParser.json() );
 
 // Set up the port for listening
 var port = process.env.PORT || 8080;
 
+// Initialise MLabs DB connect string
+var uristring = process.env.MONGODB_URI;
+
+// Database set-up
+mongoose.connect( uristring, function( error, response ) {
+	if( error ){
+		console.log( 'ERROR connecting to DB. ' + error );
+	}
+	else{
+		console.log( 'SUCCESS connected to DB' );
+	}
+});
+
 // Get an instance of the Express Router
 var router = express.Router();
 
-
 // Generic error handler used by all endpoints.
-function handleError( res, reason, message, code ) {
+function handleError( response, reason, message, code ) {
   console.log( "ERROR: " + reason );
-  res.status( code || 500 ).json( { "error": message } );
+  response.status( code || 500 ).json( { "error": message, "reason":reason } );
 }
+
+// Schema models
+var User = require('./app/models/user.js');
 
 // API routes
 //=============================================================================================
@@ -39,6 +55,7 @@ router.get( '/', function(request, response ) {
 	// Test connection message
 	console.log('Testing API');
 	response.json( { 'message' :'Howdy pardner, Test sucessful! Good job pal!' } );
+	// Test connection message ended
 });
 
 // USER API ROUTES
@@ -49,49 +66,111 @@ router.route('/users')
 
 // get all users
 .get( function( request, response ) {
-	// Test function
-	console.log('Get all users invoked');
-	response.json( { 'message':'get all users' } );
+	
+	User.find({}, function( err,users ) {
+		if( err ){
+			handleError( response, err.message, "Failed to get all contacts." );
+		}
+		else{
+			response.status(200).json( users );
+		}
+	});
 })
 
 // create a user
 .post( function( request, response ) {
-	// Test function
-	console.log('Create a user invoked');
-	var userid = 1337;
-	var firstName = request.body.firstName;
-	var lastName = request.body.lastName;
-	response.json( { 'userID': userid, 'first-name':firstName, 'last-name':lastName } );
+
+	var newUsername = request.body.username;
+	var newPassword = request.body.password;
+	var newAdminFlag = request.body.admin;
+	var newEmail = request.body.email;
+	
+	var newUser = new User({
+		username: newUsername,
+		password: newPassword,
+		email:newEmail,
+		admin:newAdminFlag
+	});
+	
+	newUser.save( function( err ) {
+		if( err ){
+			if( err.code == 11000 || err.code == 11001 ){
+				handleError( response, err.message, "User already exists." );
+			}
+			else{
+				handleError( response, err.message, "Failed to create new user." );
+			}
+		}
+		else{
+			response.status(204).end();
+		}
+	});
+	
 });
 
-// *****Main Route for /users:user_id******
-router.route('/users/:user_id')
+// *****Main Route for /users:username******
+router.route('/users/:username')
 
-// get a user for user_id
+// get a user for username
 .get( function( request, response ) {
-	// Test function
-	console.log('Get a user for user_id invoked');
-	var userid = request.params.user_id;
-	response.json( { 'userID': userid, 'first-name':'Seymour', 'last-name':'Butts' } );
+	
+	var usernameParams = request.params.username;
+	var query = { username: usernameParams };
+	
+	User.find( query, function( err, user ) {
+		if( err ){
+			handleError( response, err.message, "Failed to get the user." );
+		}
+		else{
+			response.status(200).json( user );
+		}
+	});
 })
 
-// update a user for user_id
+// update a user for username
 .put( function( request, response ) {
-	// Test function
-	console.log('Update a user for user_id invoked');
-	response.json( { 'message':'update a user for user_id' } );
+	
+	var usernameParams = request.params.username;
+	var newPassword = request.body.password;
+	var newEmail = request.body.email;
+	
+	var query = { username:usernameParams };
+	var newData = { password:newPassword, email:newEmail, updated_at:Date.now() };
+	
+	
+	User.findOneAndUpdate( query, newData, function( err, user ) {
+		if( err ){
+			if( err.code == 11000 || err.code == 11001 ){
+				handleError( response, err.message, "User already exists." );
+			}
+			else{
+				handleError( response, err.message, "Failed to update user." );
+			}
+		}
+		else{
+			response.status(204).end();
+		}
+	});
 })
 
-// delete a user for user_id
+// delete a user for username
 .delete( function( request, response ) {
-	// Test function
-	console.log('Delete a user for user_id invoked');
-	response.json( { 'message':'delete user for user_id' } );
+	
+	var usernameParams = request.params.username;
+	var query = { username:usernameParams };
+	
+	User.findOneAndRemove( query, function( err ) {
+		if( err ){
+			handleError( response, err.message, "Failed to delete a user." );
+		}
+		else{
+			response.status(204).end();
+		}
+	});
 });
-
-
 //=============================================================================================
 
+// Sets prefix for all routes
 app.use( '/api', router );
 
 // Sets the port to listen on
