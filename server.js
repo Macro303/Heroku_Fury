@@ -94,7 +94,12 @@ router.route('/users')
 	
 	newUser.save( function( err ) {
 		if( err ){
-			handleError( response, err.message, "Failed to create new user." );
+			if( err.code == 11000 ){
+				handleError( response, err.message, "Duplicate user exists." );
+			}
+			else{
+				handleError( response, err.message, "Failed to create new user." );
+			}
 		}
 		else{
 			response.status(201).json( newUser );
