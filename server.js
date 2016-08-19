@@ -93,16 +93,12 @@ router.route( '/authentication' )
 					handleError( response, err.message, "Authentication Failed." );
 				}
 				else{
-					var token = jwt.sign( user, secret, { expiresInMinutes:1440 }, function( err, token ) );
+					var token = jwt.sign( user, secret, { expiresInMinutes:1440 });
 					
-					if( err ){
-						handleError( response, err.message, "Authentication Failed." );
-					}
-					else{
-						response.json({ 'success':true, 'token':token });
-					}
+					response.json({ 'success':true, 'token':token });
 				}
 			}
+			
 		}
 	)};
 });
