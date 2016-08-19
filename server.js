@@ -73,10 +73,9 @@ router.get( '/', function(request, response ) {
 // AUTHENTICATION API ROUTES ======
 
 // *****Main route for authentication*****
-router.route('/authentication')
-.post( function( request, response ) {
-	
-	var query = { user: request.body.username};
+router.post( '/authentication', function( request, response ) {
+	 
+	var query = { username:request.body.username };
 	
 	User.findOne( query, function( err,user ){
 		if( err ){
@@ -91,13 +90,13 @@ router.route('/authentication')
 					handleError( response, err.message, "Authentication Failed." );
 				}
 				else{
-					var token = jwt.sign( user, secret, { expiresInMinutes:1440 }, function( err, token) );
+					var token = jwt.sign( user, secret, { expiresInMinutes:1440 }, function( err, token ) );
 					
 					if( err ){
 						handleError( response, err.message, "Authentication Failed." );
 					}
 					else{
-						response.json({ success:true, token:token });
+						response.json({ 'success':true, 'token':token });
 					}
 				}
 			}
