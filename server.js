@@ -94,8 +94,8 @@ router.route('/users')
 	
 	newUser.save( function( err ) {
 		if( err ){
-			if( err.code == 11000 ){
-				handleError( response, err.message, "Duplicate user exists." );
+			if( err.code == 11000 || err.code == 11001 ){
+				handleError( response, err.message, "User already exists." );
 			}
 			else{
 				handleError( response, err.message, "Failed to create new user." );
@@ -129,10 +129,20 @@ router.route('/users/:username')
 .put( function( request, response ) {
 	
 	var usernameParams = request.params.username;
-	var newPassword = request.body.newPassword;
-	User.findOneAndUpdate({ username:usernameParams }, { password:newPassword }, function( err, user ) {
+	var newPassword = request.body.password;
+	var newEmail = request.body.email;
+	
+	
+	User.findOneAndUpdate({ username:usernameParams }, 
+						  { password:newPassword, email:newEmail, updated_at:Date.now }, 
+						  function( err, user ) {
 		if( err ){
-			handleError( response, err.message, "Failed to update user." );
+			if( err.code == 11000 || err.code == 11001 ){
+				handleError( response, err.message, "User already exists." );
+			}
+			else{
+				handleError( response, err.message, "Failed to update user." );
+			}
 		}
 		else{
 			response.status(204).json( user );
@@ -149,7 +159,7 @@ router.route('/users/:username')
 			handleError( response, err.message, "Failed to delete a user." );
 		}
 		else{
-			response.status(204).json( { 'successful':1 } );
+			response.status(204).json( { 'deleted':1 } );
 		}
 	});
 });
