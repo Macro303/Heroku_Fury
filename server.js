@@ -135,7 +135,7 @@ router.route('/users/:username')
 	var newEmail = request.body.email;
 	
 	var query = { username:usernameParams };
-	var newData = { password:newPassword, email:newEmail, updated_at:Date.now };
+	var newData = { password:newPassword, email:newEmail, updated_at:Date.now() };
 	
 	
 	User.findOneAndUpdate( query, newData, function( err, user ) {
