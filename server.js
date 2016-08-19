@@ -77,6 +77,7 @@ router.get( '/', function(request, response ) {
 router.post( '/login', function( request, response ) {
 	 
 	var loginUsername = request.body.username;
+	var loginPassword = request.body.password;
 	var query = { username:loginUsername };
 	
 	User.find( query, function( err,user ){
@@ -84,11 +85,11 @@ router.post( '/login', function( request, response ) {
 			handleError( response, err.message, "Failed to complete authentication." );
 		}
 		else{
-			if( !user ){
+			if( user.username != loginUsername ){
 				handleError( response, "User not found.", "Authentication Failed." );
 			}
 			else {
-				if( user.password != request.body.password ){
+				if( user.password != loginPassword ){
 					handleError( response, "Password not matched.", "Authentication Failed." );
 				}
 				else{
