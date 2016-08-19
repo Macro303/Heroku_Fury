@@ -9,17 +9,15 @@
 var express = require( "express" );
 var bodyParser = require( "body-parser" );
 var mongoose = require("mongoose");
+var jwt = require("jsonwebtoken");
 var app = express();
 
 // Authentication packages ======
-var jwt = require("jsonwebtoken");
-// var config = require('./config');
 
 // Setup for bodyParser ======
 app.use( bodyParser.urlencoded( { extended: true } ) );
 app.use( bodyParser.json() );
 
-//app.set('secretSquirrel', config.secret);
 
 var secret = { 'secret':'afriendlymongoosesatontherock' };
 
@@ -73,9 +71,8 @@ router.get( '/', function(request, response ) {
 // AUTHENTICATION API ROUTES ======
 
 // *****Main route for authentication*****
-router.route( '/authentication' )
 
-.post( function( request, response ) {
+router.post( '/login', function( request, response ) {
 	 
 	var loginUsername = request.body.username;
 	var query = { username:loginUsername };
