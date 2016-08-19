@@ -93,10 +93,12 @@ router.route('/users')
 	});
 	
 	newUser.save( function( err ) {
-		if (err)
-			response.send( err )
-		
-		response.json( newUser );
+		if( err ){
+			handleError( response, err.message, "Failed to create new user." );
+		}
+		else{
+			response.status(201).json( newUser );
+		}
 	});
 	
 });
@@ -109,10 +111,12 @@ router.route('/users/:username')
 	
 	var usernameParams = request.params.username;
 	User.find({ username: usernameParams }, function( err, user ) {
-		if ( err )
-			response.send( err );
-		
-		response.json( user );
+		if( err ){
+			handleError( response, err.message, "Failed to get the user." );
+		}
+		else{
+			response.status(200).json( user );
+		}
 	});
 })
 
@@ -122,10 +126,12 @@ router.route('/users/:username')
 	var usernameParams = request.params.username;
 	var newPassword = request.body.newPassword;
 	User.findOneAndUpdate({ username:usernameParams }, { password:newPassword }, function( err, user ) {
-		if ( err )
-			response.send( err );
-		
-		response.json( user );
+		if( err ){
+			handleError( response, err.message, "Failed to update user." );
+		}
+		else{
+			response.status(204).json( user );
+		}
 	});
 })
 
@@ -134,10 +140,12 @@ router.route('/users/:username')
 	
 	var usernameParams = request.params.username;
 	User.findOneAndRemove({ username: usernameParams }, function( err ) {
-		if ( err )
-			response.send( err );
-		
-		response.json( { 'user':usernameParams, 'message':'successfully deleted' } );
+		if( err ){
+			handleError( response, err.message, "Failed to delete a user." );
+		}
+		else{
+			response.status(204).json( { 'successful':1 } );
+		}
 	});
 });
 //=============================================================================================
