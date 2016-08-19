@@ -1,25 +1,33 @@
 // server.js
 
-// Initialize
-//=============================================================================================
+// ====================
+// Initialize =========
+//=====================
 
-// Package calls
+
+// Package calls ======
 var express = require( "express" );
 var bodyParser = require( "body-parser" );
 var mongoose = require("mongoose");
 var app = express();
 
+// Authentication packages ======
+var jwt = require("jsonwebtoken");
+var config = require('./config');
 
+// Setup for bodyParser ======
 app.use( bodyParser.urlencoded( { extended: true } ) );
 app.use( bodyParser.json() );
 
-// Set up the port for listening
+app.set('secretSquirrel', config.secret);
+
+// Set up the port for listening ======
 var port = process.env.PORT || 8080;
 
-// Initialise MLabs DB connect string
+// Initialise MLabs DB connect string ======
 var uristring = process.env.MONGODB_URI;
 
-// Database set-up
+// Database set-up ======
 mongoose.connect( uristring, function( error, response ) {
 	if( error ){
 		console.log( 'ERROR connecting to DB. ' + error );
@@ -29,33 +37,68 @@ mongoose.connect( uristring, function( error, response ) {
 	}
 });
 
-// Get an instance of the Express Router
+// Get an instance of the Express Router ======
 var router = express.Router();
 
-// Generic error handler used by all endpoints.
+// Generic error handler used by all endpoints. ======
 function handleError( response, reason, message, code ) {
   console.log( "ERROR: " + reason );
   response.status( code || 500 ).json( { "error": message, "reason":reason } );
 }
 
-// Schema models
+// Schema models ======
 var User = require('./app/models/user.js');
 
-// API routes
-//=============================================================================================
 
-// End-point for all routes
+//=====================
+// API routes =========
+//=====================
+
+// End-point for all routes ======
 router.use( function( request, response, next ) {
 	console.log('Loading........');
 	next();
 });
 
-// TEST API ROUTE
+// TEST API ROUTE =======
 router.get( '/', function(request, response ) {
 	// Test connection message
 	console.log('Testing API');
 	response.json( { 'message' :'Howdy pardner, Test sucessful! Good job pal!' } );
 	// Test connection message ended
+});
+
+// AUTHENTICATION API ROUTES ======
+
+// *****Main route for authentication*****
+router.route('/authentication')
+.post( function( request, response ) {
+	
+	var query = { user: request.body.username};
+	
+	User.findOne( query, function( err,user ){
+		if( err ){
+			handleError( response, err.message, "Failed to complete authentication." );
+		}
+		else{
+			if( !user ){
+				handleError( response, err.message, "Authentication Failed." );
+			}
+			else {
+				if( user.password != request.body.password ){
+					handleError( response, err.message, "Authentication Failed." );
+				}
+				else{
+					var token = jwt.sign( user, app.get('secretSquirrel'), { expiresInMinutes:1440 } );
+					
+					response.json({
+						success:true,
+						token:token
+					});
+				}
+			}
+		}
+	)};
 });
 
 // USER API ROUTES
