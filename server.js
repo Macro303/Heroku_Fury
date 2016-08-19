@@ -102,7 +102,7 @@ router.route('/users')
 			}
 		}
 		else{
-			response.status(201).json( newUser );
+			response.status(204).end();
 		}
 	});
 	
@@ -157,7 +157,9 @@ router.route('/users/:username')
 .delete( function( request, response ) {
 	
 	var usernameParams = request.params.username;
-	User.findOneAndRemove({ username: usernameParams }, function( err ) {
+	var query = { username:usernameParams };
+	
+	User.findOneAndRemove( query, function( err ) {
 		if( err ){
 			handleError( response, err.message, "Failed to delete a user." );
 		}
