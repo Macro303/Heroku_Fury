@@ -1,6 +1,5 @@
 // config.js
 
 module.exports = {
-	'secret':''
-	'database':''
+	'secret':'afriendlymongoosesatontherock'
 };

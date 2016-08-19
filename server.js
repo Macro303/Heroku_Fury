@@ -43,7 +43,7 @@ var router = express.Router();
 // Generic error handler used by all endpoints. ======
 function handleError( response, reason, message, code ) {
   console.log( "ERROR: " + reason );
-  response.status( code || 500 ).json( { "error": message, "reason":reason } );
+  response.status( code || 500 ).json( { "error": message } );
 }
 
 // Schema models ======
