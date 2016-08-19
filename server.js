@@ -1,33 +1,40 @@
 // server.js
 
-// ====================
-// Initialize =========
-//=====================
 
+// ===============================================================
+// ====================== Initialization =========================
+// ===============================================================
 
-// Package calls ======
+// ====== Package calls ======
 var express = require( "express" );
 var bodyParser = require( "body-parser" );
 var mongoose = require("mongoose");
 var jwt = require("jsonwebtoken");
+
+// ====== Initialise Express ======
 var app = express();
 
-// Authentication packages ======
+// ====== Get an instance of the Express Router ======
+var router = express.Router();
 
-// Setup for bodyParser ======
+
+// ====== Setup for bodyParser ======
 app.use( bodyParser.urlencoded( { extended: true } ) );
 app.use( bodyParser.json() );
 
+// ====== Sets prefix for all routes ======
+app.use( '/api', router );
 
+// ====== Secret for authentication ======
 var secret = { 'secret':'afriendlymongoosesatontherock' };
 
-// Set up the port for listening ======
+// ====== Set up the port for listening ======
 var port = process.env.PORT || 8080;
 
-// Initialise MLabs DB connect string ======
+
+// ====== Database set-up ======
 var uristring = process.env.MONGODB_URI;
 
-// Database set-up ======
 mongoose.connect( uristring, function( error, response ) {
 	if( error ){
 		console.log( 'ERROR connecting to DB. ' + error );
@@ -37,30 +44,27 @@ mongoose.connect( uristring, function( error, response ) {
 	}
 });
 
-// Get an instance of the Express Router ======
-var router = express.Router();
-
-// Generic error handler used by all endpoints. ======
+// ====== Generic error handler used by all endpoints. ======
 function handleError( response, reason, message, code ) {
   console.log( "ERROR: " + reason );
   response.status( code || 500 ).json( { "error": message } );
 }
 
-// Schema models ======
+// ====== Schema models ======
 var User = require('./app/models/user.js');
 
 
-//=====================
-// API routes =========
-//=====================
+//===============================================================
+//====================== API routes =============================
+//===============================================================
 
-// End-point for all routes ======
+// ====== End-point for all routes ======
 router.use( function( request, response, next ) {
 	console.log('Loading........');
 	next();
 });
 
-// TEST API ROUTE =======
+// ====== TEST API ROUTE =======
 router.get( '/', function(request, response ) {
 	// Test connection message
 	console.log('Testing API');
@@ -68,9 +72,7 @@ router.get( '/', function(request, response ) {
 	// Test connection message ended
 });
 
-// AUTHENTICATION API ROUTES ======
-
-// *****Main route for authentication*****
+// ====== AUTHENTICATION API ROUTE ======
 
 router.post( '/login', function( request, response ) {
 	 
@@ -90,7 +92,7 @@ router.post( '/login', function( request, response ) {
 					handleError( response, err.message, "Authentication Failed." );
 				}
 				else{
-					var token = jwt.sign( user, secret, { expiresInMinutes:1440 });
+					var token = jwt.sign( user, secret, { expiresIn:86400 });
 					
 					response.json({ 'success':true, 'token':token });
 				}
@@ -100,13 +102,14 @@ router.post( '/login', function( request, response ) {
 	)};
 });
 
-// USER API ROUTES
-//=============================================================================================
+// ===============================================================
+// ====================== User API routes ========================
+// ===============================================================
 
-// *****Main Route for /users*****
+// ====== Main Route for /users ======
 router.route('/users')
 
-// get all users
+// Get all users 
 .get( function( request, response ) {
 	
 	User.find({}, function( err,users ) {
@@ -119,7 +122,7 @@ router.route('/users')
 	});
 })
 
-// create a user
+// Create a user 
 .post( function( request, response ) {
 
 	var newUsername = request.body.username;
@@ -150,7 +153,7 @@ router.route('/users')
 	
 });
 
-// *****Main Route for /users:username******
+// ====== Main Route for /users:username ======
 router.route('/users/:username')
 
 // get a user for username
@@ -210,10 +213,10 @@ router.route('/users/:username')
 		}
 	});
 });
-//=============================================================================================
 
-// Sets prefix for all routes
-app.use( '/api', router );
+// ===============================================================
+// =================== Final initialisation ======================
+// ===============================================================
 
 // Sets the port to listen on
 app.listen( port );
