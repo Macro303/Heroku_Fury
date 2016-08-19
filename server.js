@@ -85,11 +85,11 @@ router.post( '/login', function( request, response ) {
 		}
 		else{
 			if( !user ){
-				handleError( response, err.message, "Authentication Failed." );
+				handleError( response, "User not found.", "Authentication Failed." );
 			}
 			else {
 				if( user.password != request.body.password ){
-					handleError( response, err.message, "Authentication Failed." );
+					handleError( response, "Password not matched.", "Authentication Failed." );
 				}
 				else{
 					var token = jwt.sign( user, secret, { expiresIn:86400 });
