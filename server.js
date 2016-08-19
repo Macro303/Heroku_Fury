@@ -33,9 +33,9 @@ mongoose.connect( uristring, function( error, response ) {
 var router = express.Router();
 
 // Generic error handler used by all endpoints.
-function handleError( res, reason, message, code ) {
+function handleError( response, reason, message, code ) {
   console.log( "ERROR: " + reason );
-  res.status( code || 500 ).json( { "error": message } );
+  response.status( code || 500 ).json( { "error": message } );
 }
 
 // Schema models
@@ -69,7 +69,7 @@ router.route('/users')
 	
 	User.find({}, function( err,users ) {
 		if( err ){
-			handleError( response, err.message, "Failed to get all contacts" );
+			handleError( response, err.message, "Failed to get all contacts." );
 		}
 		else{
 			response.status(200).json( users );
