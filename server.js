@@ -80,17 +80,15 @@ router.post( '/login', function( request, response ) {
 	var loginPassword = request.body.password;
 	var query = { username:loginUsername };
 	
-	console.log( loginUsername );
 
 	
 	User.find( query, function( err,user ){
-		console.log( user.username );
 		
 		if( err ){
 			handleError( response, err.message, "Failed to complete authentication." );
 		}
 		else{
-			if( JSON.stringify(user.username).trim() != loginUsername.toString().trim() ){
+			if( JSON.stringify(user.username) != loginUsername.toString().trim() ){
 				handleError( response, "User not found.", "Authentication Failed." );
 			}
 			else {
