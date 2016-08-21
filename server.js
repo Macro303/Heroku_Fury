@@ -85,7 +85,7 @@ router.post( '/login', function( request, response ) {
 			handleError( response, err.message, "Failed to complete authentication." );
 		}
 		else{
-			if( user.username != loginUsername ){
+			if( JSON.stringify(user.username) != loginUsername ){
 				handleError( response, "User not found.", "Authentication Failed." );
 			}
 			else {
