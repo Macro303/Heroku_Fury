@@ -81,9 +81,11 @@ router.post( '/login', function( request, response ) {
 	var query = { username:loginUsername };
 	
 	console.log( loginUsername );
-	console.log( user.username );
+
 	
 	User.find( query, function( err,user ){
+		console.log( user.username );
+		
 		if( err ){
 			handleError( response, err.message, "Failed to complete authentication." );
 		}
