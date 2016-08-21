@@ -80,7 +80,8 @@ router.post( '/login', function( request, response ) {
 	var loginPassword = request.body.password;
 	var query = { username:loginUsername };
 	
-	console.log( que);
+	console.log( loginUsername );
+	console.log( user.username );
 	
 	User.find( query, function( err,user ){
 		if( err ){
