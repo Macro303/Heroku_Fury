@@ -9,7 +9,8 @@
 var express = require( "express" );
 var bodyParser = require( "body-parser" );
 var mongoose = require("mongoose");
-var jwt = require("jsonwebtoken");
+var passport = require("passport");
+var User = mongoose.model("User");
 
 // ====== Initialise Express ======
 var app = express();
@@ -17,16 +18,16 @@ var app = express();
 // ====== Get an instance of the Express Router ======
 var router = express.Router();
 
+require('./config.js');
 
 // ====== Setup for bodyParser ======
 app.use( bodyParser.urlencoded( { extended: true } ) );
 app.use( bodyParser.json() );
 
 // ====== Sets prefix for all routes ======
+app.use( passport.initialise() );
 app.use( '/api', router );
 
-// ====== Secret for authentication ======
-var secret = { 'secret':'afriendlymongoosesatontherock' };
 
 // ====== Set up the port for listening ======
 var port = process.env.PORT || 8080;
@@ -51,7 +52,10 @@ function handleError( response, reason, message, code ) {
 }
 
 // ====== Schema models ======
-var User = require('./app/models/user.js');
+//var User = require('./app/models/user.js');
+
+
+
 
 
 //===============================================================
@@ -80,8 +84,23 @@ router.post( '/login', function( request, response ) {
 	var loginPassword = request.body.password;
 	var query = { username:loginUsername };
 	
+	passport.authenticate( 'local', function( err, user ){
+		var token;
+		
+		if( err ){
+			handleError( response, err.message, "Failed to complete authentication." );
+		}
+		
+		if( user ){
+			token = user.generateJwt();
+			response.status( 200 ).json( { "token": token } );
+		}
+		else{
+			handleError( response, "User not found.", "Authentication Failed." );
+		}
+	} );
 
-	
+/*	
 	User.find( query, function( err,user ){
 		
 		if( err ){
@@ -103,7 +122,7 @@ router.post( '/login', function( request, response ) {
 			}
 			
 		}
-	});
+	});*/
 });
 
 // ===============================================================
@@ -130,16 +149,16 @@ router.route('/users')
 .post( function( request, response ) {
 
 	var newUsername = request.body.username;
-	var newPassword = request.body.password;
 	var newAdminFlag = request.body.admin;
 	var newEmail = request.body.email;
 	
 	var newUser = new User({
 		username: newUsername,
-		password: newPassword,
 		email:newEmail,
 		admin:newAdminFlag
 	});
+	
+	newUser.setPassword( request.body.password );
 	
 	newUser.save( function( err ) {
 		if( err ){
@@ -151,7 +170,8 @@ router.route('/users')
 			}
 		}
 		else{
-			response.status(204).end();
+			var token = newUser.generateJwt();
+			response.status(201).json({ "token": token });
 		}
 	});
 	
