@@ -80,7 +80,7 @@ app.use( bodyParser.urlencoded( { extended: true } ) );
 app.use( bodyParser.json() );
 
 app.use( passport.initialise() );
-app.use( '/api', router );
+
 
 /*
 // Error handlers
@@ -139,6 +139,7 @@ router.delete( '/users', auth, cntrlrUsers.deleteUser );
 // ===============================================================
 
 // ====== Set up the port for listening ======
+app.use( '/api', router );
 var port = process.env.PORT || 8080;
 
 // Sets the port to listen on
