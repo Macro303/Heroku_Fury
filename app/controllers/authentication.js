@@ -22,8 +22,9 @@ function sendResponse( res, code, content ) {
 
 module.exports.register = function( req, res ) {
 
-	if ( !req.body.username || !req.body.email || !req.body.admin )
+	if ( !req.body.username || !req.body.email || !req.body.admin ){
 		sendErrorResponse( res, 400, "User info not supplied.", "All fields required." );
+	}
 	else{
 	
 		var newUsername = req.body.username;
@@ -57,8 +58,9 @@ module.exports.register = function( req, res ) {
 
 module.exports.login = function( req, res ) {
 	 
-	if ( !req.body.username || !req.body.password )
+	if ( !req.body.username || !req.body.password ){
 		sendErrorResponse( res, 400, "User info not supplied.", "All fields required." );
+	}
 	else{
 		passport.authenticate( 'local', function( err, user ){
 			var token;
