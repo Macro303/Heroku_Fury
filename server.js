@@ -21,23 +21,26 @@ require('./app/config/passport.js');
 var app = express();
 var router = require('./app/routes/index.js')
 
+// ===============================================================
+// =================== App Initialization ========================
+// ===============================================================
 
-// ====== Setup for bodyParser ======
 app.use( bodyParser.urlencoded( { extended: true } ) );
 app.use( bodyParser.json() );
 
-// ====== Sets prefix for all routes ======
 app.use( passport.initialise() );
 app.use( '/api', router );
 
+
+// Error handlers
 app.use( function( request, response, next ){
-	var err = new Error('Not found');
+	var err = new Error( 'Not found' );
 	err.status = 404;
-	next(err);
+	next( err );
 });
 
 app.use( function( err, request, response, next ){
-	if( err.name === 'UnauthorizedError'){
+	if( err.name === 'UnauthorizedError' ){
 		response.status( 401 ).json( message: "Unauthorised Access" );
 	}
 	else{
@@ -46,13 +49,13 @@ app.use( function( err, request, response, next ){
 		
 });
 
-// ====== Set up the port for listening ======
-var port = process.env.PORT || 8080;
-
 
 // ===============================================================
 // =================== Final initialisation ======================
 // ===============================================================
+
+// ====== Set up the port for listening ======
+var port = process.env.PORT || 8080;
 
 // Sets the port to listen on
 app.listen( port );
