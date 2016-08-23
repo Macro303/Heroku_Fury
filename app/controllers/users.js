@@ -1,5 +1,6 @@
 var mongoose = require( 'mongoose' );
-var User = mongoose.model( 'User' );
+var User = require( '../models/user.js' );
+
 
 // ====== Generic error handler used by all endpoints. ======
 function sendErrorResponse( res, code, reason, content ) {

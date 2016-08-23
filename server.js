@@ -18,8 +18,6 @@ var uristring = process.env.MONGODB_URI;
 
 var User = require( './app/models/user.js' );
 
-var gentleShutdown;
-
 var app = express();
 
 mongoose.connect( uristring, function( err, res ) {
@@ -31,7 +29,7 @@ mongoose.connect( uristring, function( err, res ) {
 	}
 });
 
-gentleShutdown = function( msg, callback ){
+var gentleShutdown = function( msg, callback ){
 	mongoose.connection.close( function(){
 		console.log( 'Mongoose disconnected through ' + msg );
 		callback();
