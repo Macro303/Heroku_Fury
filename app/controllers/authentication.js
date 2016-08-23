@@ -7,7 +7,7 @@ var User = require( '../models/user.js' );
 function sendErrorResponse( res, code, reason, content ) {
 	console.log( "ERROR: " + reason );
 	res.status( code ).json( message: content );
-}
+};
 
 // ====== Generic response used by all endpoints. ======
 function sendResponse( res, code, content ) {
@@ -18,7 +18,7 @@ function sendResponse( res, code, content ) {
 	else{
 		res.status( code ).end();
 	}
-}
+};
 
 module.exports.register = function( req, res ) {
 
