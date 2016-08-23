@@ -15,7 +15,7 @@ var userSchema = new mongoose.Schema({
 	updated_at: { type:Date, default:Date.now }
 });
 
-user.Schema.methods.setPassword = function( password ){
+userSchema.methods.setPassword = function( password ){
 	this.salt = crypto.randomBytes( 16 ).toString( 'hex' );
 	this.hash = crypto.pbkdf2Sync( password, this.salt, 1000, 64 ).toString( 'hex' );
 };
