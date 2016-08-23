@@ -11,6 +11,7 @@ var bodyParser = require( 'body-parser' );
 var mongoose = require( 'mongoose' );
 var passport = require( 'passport' );
 
+var jwt = require( 'express-jwt' );
 //require( './app/models/db.js' );
 
 var uristring = process.env.MONGODB_URI;
@@ -70,11 +71,6 @@ passport.use( new LocalStrategy( function( username, password, done ){
 }));
 	
 
-
-// ====== Initialise Express ======
-var app = express();
-var router = require( './app/routes/index.js' );
-
 // ===============================================================
 // =================== App Initialization ========================
 // ===============================================================
@@ -102,6 +98,39 @@ app.use( function( err, req, res, next ){
 	}
 		
 });
+
+
+// ====== Initialise Express ======
+var app = express();
+//var router = require( './app/routes/index.js' );
+
+var router = express.Router();
+
+var auth = jwt({
+	secret: 'SECRET',
+	userProperty: 'payload'
+});
+
+var cntrlrAuth = require( './app/controllers/authentication.js' );
+var cntrlrUsers = require( './app/controllers/users.js' );
+
+// user login
+router.post( '/login', cntrlrAuth.login );
+
+// create new user
+router.post( '/register', cntrlrAuth.register );
+
+// get all users
+router.get( '/users', auth, cntrlrUsers.findAllUsers );
+
+// get a user
+router.post( '/users', auth, cntrlrUsers.findUser );
+
+// update a user
+router.put( '/users', auth, cntrlrUsers.updateUser );
+
+// update a user
+router.delete( '/users', auth, cntrlrUsers.deleteUser );
 
 
 // ===============================================================
