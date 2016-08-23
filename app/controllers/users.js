@@ -1,88 +1,88 @@
-var mongoose = require("mongoose");
-var User = mongoose.model("User");
+var mongoose = require( 'mongoose' );
+var User = mongoose.model( 'User' );
 
 // ====== Generic error handler used by all endpoints. ======
-function sendErrorResponse( response, code, reason, content ) {
-	console.log( "ERROR: " + reason );
-	response.status( code ).json( message: content );
+function sendErrorResponse( res, code, reason, content ) {
+	console.log( 'ERROR: ' + reason );
+	res.status( code ).json( message: content );
 }
 
 // ====== Generic response used by all endpoints. ======
-function sendResponse( response, code, content ) {
+function sendResponse( res, code, content ) {
   
 	if ( content ){
-		response.status( code ).json( content );
+		res.status( code ).json( content );
 	}
 	else{
-		response.status( code ).end();
+		res.status( code ).end();
 	}
 }
 
-module.exports.findAllUsers = function( request, response ) {
+module.exports.findAllUsers = function( req, res ) {
 	
 	User.find({}, 'username', function( err,users ) {
 		if( err ){
-			sendErrorResponse( response, 500, err.message, "Failed to find all users." );
+			sendErrorResponse( res, 500, err.message, "Failed to find all users." );
 		}
 		else{
-			sendResponse( response, 200, users );
+			sendResponse( res, 200, users );
 		}
 	});
 	
 };
 
-module.exports.findUser = function( request, response ) {
+module.exports.findUser = function( req, res ) {
 	
-	if ( !request.payload._id ){
-		sendErrorResponse( response, 401, "No payload in request.", "Unauthorised access." );
+	if ( !req.payload._id ){
+		sendErrorResponse( res, 401, "No payload in request.", "Unauthorised access." );
 	}
 	else{
-		User.findById({ request.payload._id }, function( err,users ) {
+		User.findById( req.payload._id , function( err,users ) {
 			if( err ){
-				sendErrorResponse( response, 500, err.message, "Failed to find user." );
+				sendErrorResponse( res, 500, err.message, "Failed to find user." );
 			}
 			else{
-				sendResponse( response, 200, users );
+				sendResponse( res, 200, users );
 			}
 	
 		});
 	}
 };
 
-module.exports.updateUser = function( request, response ) {
+module.exports.updateUser = function( req, res ) {
 	
-	var newPassword = request.body.password;
-	var newEmail = request.body.email;
-	var newData = { password:newPassword, email:newEmail, updated_at:Date.now() };
+	var newPassword = req.body.password;
+	var newEmail = req.body.email;
+	var update = { password:newPassword, email:newEmail, updated_at:Date.now() };
 	
-	if ( !request.payload._id ){
-		sendErrorResponse( response, 401, "No payload in request.", "Unauthorised access." );
+	if ( !req.payload._id ){
+		sendErrorResponse( res, 401, "No payload in request.", "Unauthorised access." );
 	}
 	else{
-		User.findByIdAndUpdate( request.payload._id, newData, function( err,users ) {
+		User.findByIdAndUpdate( req.payload._id, update, function( err,users ) {
 			if( err ){
-				sendErrorResponse( response, 500, err.message, "Failed to update user." );
+				sendErrorResponse( res, 500, err.message, "Failed to update user." );
 			}
 			else{
-				sendResponse( response, 204, null );
+				sendResponse( res, 204, null );
 			}
 	
 		});
 	}
 };
 
-module.exports.deleteUser = function( request, response ) {
+module.exports.deleteUser = function( req, res ) {
 	
-	if ( !request.payload._id ){
-		sendErrorResponse( response, 401, "No payload in request.", "Unauthorised access." );
+	if ( !req.payload._id ){
+		sendErrorResponse( res, 401, "No payload in request.", "Unauthorised access." );
 	}
 	else{
-		User.findByIdAndRemove( request.payload._id , function( err,users ) {
+		User.findByIdAndRemove( req.payload._id , function( err,users ) {
 			if( err ){
-				sendErrorResponse( response, 500, err.message, "Failed to delete user." );
+				sendErrorResponse( res, 500, err.message, "Failed to delete user." );
 			}
 			else{
-				sendResponse( response, 204, null );
+				sendResponse( res, 204, null );
 			}
 	
 		});

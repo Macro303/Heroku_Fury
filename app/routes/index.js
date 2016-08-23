@@ -1,15 +1,15 @@
-var express = require( "express" );
-var jwt = require("express-jwt");
+var express = require( 'express' );
+var jwt = require( 'express-jwt' );
 
 var router = express.Router();
 
 var auth = jwt({
-	secret: "SECRET",
+	secret: 'SECRET',
 	userProperty: 'payload'
 });
 
-var cntrlrAuth = require('../controllers/authentication.js');
-var cntrlrUsers = require('../controllers/users.js');
+var cntrlrAuth = require( '../controllers/authentication.js' );
+var cntrlrUsers = require( '../controllers/users.js' );
 
 // user login
 router.post( '/login', cntrlrAuth.login );

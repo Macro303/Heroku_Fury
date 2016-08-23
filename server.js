@@ -6,20 +6,20 @@
 // ===============================================================
 
 // ====== Package calls ======
-var express = require( "express" );
-var bodyParser = require( "body-parser" );
-var mongoose = require("mongoose");
-var passport = require("passport");
-var User = mongoose.model("User");
+var express = require( 'express' );
+var bodyParser = require( 'body-parser' );
+var mongoose = require( 'mongoose' );
+var passport = require( 'passport' );
+var User = mongoose.model( 'User' );
 
-require('./app/models/db.js');
+require( './app/models/db.js' );
 
-require('./app/config/passport.js');
+require( './app/config/passport.js' );
 
 
 // ====== Initialise Express ======
 var app = express();
-var router = require('./app/routes/index.js');
+var router = require( './app/routes/index.js' );
 
 // ===============================================================
 // =================== App Initialization ========================
@@ -33,18 +33,18 @@ app.use( '/api', router );
 
 
 // Error handlers
-app.use( function( request, response, next ){
+app.use( function( req, res, next ){
 	var err = new Error( 'Not found' );
 	err.status = 404;
 	next( err );
 });
 
-app.use( function( err, request, response, next ){
+app.use( function( err, req, res, next ){
 	if( err.name === 'UnauthorizedError' ){
-		response.status( 401 ).json( message: "Unauthorised Access" );
+		res.status( 401 ).json( message: "Unauthorised Access" );
 	}
 	else{
-		response.status( err.status || 500 ).json( message: err.message );
+		res.status( err.status || 500 ).json( message: err.message );
 	}
 		
 });

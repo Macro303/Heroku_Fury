@@ -1,8 +1,8 @@
 // app/models/user.js
 
-var mongoose = require( "mongoose" );
-var crypto = require("crypto");
-var jwt = require("jsonwebtoken");
+var mongoose = require( 'mongoose' );
+var crypto = require( 'crypto' );
+var jwt = require( 'jsonwebtoken' );
 
 var userSchema = new mongoose.Schema({
 	username: { type: String, required:true, unique:true },
@@ -29,12 +29,12 @@ userSchema.methods.generateJwt = function(){
 	var expiry = new Date();
 	expiry.setDate( expiry.getDate() + 7 );
 	
-	return jwt.sign({
+	return jwt.sign( {
 		_id: this._id,
 		email: this.email,
 		name: this.name,
 		exp: parseInt( expiry.getTime() / 1000 ),
-	}, "SECRET");
+	}, 'SECRET');
 };
 
-mongoose.model( 'Users', userSchema);
+mongoose.model( 'User', userSchema);
