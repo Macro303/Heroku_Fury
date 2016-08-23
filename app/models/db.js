@@ -1,6 +1,8 @@
 var mongoose = require( 'mongoose' );
 var uristring = process.env.MONGODB_URI;
 
+require( './user.js' );
+
 var gentleShutdown;
 
 
@@ -32,4 +34,3 @@ process.on( 'SIGTERM', function(){
 	});
 });
 
-require( './user.js' );
