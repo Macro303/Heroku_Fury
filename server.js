@@ -80,14 +80,14 @@ app.use( bodyParser.json() );
 app.use( passport.initialize() );
 
 
-
+/*
 // Error handlers
 app.use( function( req, res, next ){
 	var err = new Error( 'Not found' );
 	err.status = 404;
 	next( err );
 });
-
+*/
 app.use( function( err, req, res, next ){
 	if( err.name === 'UnauthorizedError' ){
 		res.status( 401 ).json( { message: "Unauthorised Access" } );
