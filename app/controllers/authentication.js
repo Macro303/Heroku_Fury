@@ -6,7 +6,7 @@ var User = require( '../models/user.js' );
 // ====== Generic error handler used by all endpoints. ======
 function sendErrorResponse( res, code, reason, content ) {
 	console.log( "ERROR: " + reason );
-	resp.status( code ).json( message: content );
+	res.status( code ).json( message: content );
 }
 
 // ====== Generic response used by all endpoints. ======
