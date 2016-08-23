@@ -41,10 +41,10 @@ app.use( function( req, res, next ){
 
 app.use( function( err, req, res, next ){
 	if( err.name === 'UnauthorizedError' ){
-		res.status( 401 ).json( message: "Unauthorised Access" );
+		res.status( 401 ).json( { message: "Unauthorised Access" } );
 	}
 	else{
-		res.status( err.status || 500 ).json( message: err.message );
+		res.status( err.status || 500 ).json( { message: err.message } );
 	}
 		
 });
