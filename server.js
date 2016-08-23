@@ -77,7 +77,7 @@ passport.use( new LocalStrategy( function( username, password, done ){
 app.use( bodyParser.urlencoded( { extended: true } ) );
 app.use( bodyParser.json() );
 
-app.use( passport.initialise() );
+app.use( passport.initialize() );
 
 
 /*
