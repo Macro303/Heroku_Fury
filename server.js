@@ -80,7 +80,7 @@ app.use( bodyParser.json() );
 app.use( passport.initialize() );
 
 
-/*
+
 // Error handlers
 app.use( function( req, res, next ){
 	var err = new Error( 'Not found' );
@@ -97,7 +97,7 @@ app.use( function( err, req, res, next ){
 	}
 		
 });
-*/
+
 
 // ====== Initialise Express ======
 
