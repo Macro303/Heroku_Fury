@@ -73,6 +73,6 @@ module.exports.login = function( req, res ) {
 			else{
 				sendErrorResponse( res, 401, "User not found.", "Authentication Failed." );
 			}
-		});
+		})( req,res );
 	}
 };
