@@ -31,8 +31,8 @@ module.exports.register = function( request, response ) {
 	
 		var newUser = new User({
 			username: newUsername,
-			email:newEmail,
-			admin:newAdminFlag
+			email: newEmail,
+			admin: newAdminFlag
 		});
 	
 		newUser.setPassword( request.body.password );

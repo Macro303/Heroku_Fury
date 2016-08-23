@@ -19,7 +19,7 @@ require('./app/config/passport.js');
 
 // ====== Initialise Express ======
 var app = express();
-var router = require('./app/routes/index.js')
+var router = require('./app/routes/index.js');
 
 // ===============================================================
 // =================== App Initialization ========================
