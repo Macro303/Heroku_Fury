@@ -32,7 +32,7 @@ module.exports.findUser = function( req, res ) {
 		res.status( 401 ).json( { message: "Unauthorised access." } );
 	}
 	else{
-		User.findById( req.payload._id , function( err,users ) {
+		User.findById( req.payload._id , 'username email', function( err,users ) {
 			if( err ){
 				//handleError( res, 500, err.message, "Failed to find user." );
 				res.status( 500 ).json( { message: "Failed to find user." } );
@@ -50,23 +50,36 @@ module.exports.updateUser = function( req, res ) {
 	
 	var newPassword = req.body.password;
 	var newEmail = req.body.email;
-	var update = { password:newPassword, email:newEmail, updated_at:Date.now() };
 	
 	if ( !req.payload._id ){
 		//handleError( res, 401, "No payload in request.", "Unauthorised access." );
 		res.status( 401 ).json( { message: "Unauthorised access." } );
 	}
 	else{
-		User.findByIdAndUpdate( req.payload._id, update, function( err,users ) {
+		User.findById( req.payload._id, function( err,user ) {
 			if( err ){
 				//handleError( res, 500, err.message, "Failed to update user." );
 				res.status( 500 ).json( { message: "Failed to update user." } );
 			}
 			else{
-				//sendResponse( res, 204, null );
-				res.status( 204 ).end();
+				if(newEmail)
+					user.email = newEmail;
+				
+				if(newPassword)
+					user.setPassword( newPassword );
+				
+				user.updated_at = Date.now();
+				
+				user.save( function( err ) {
+					if( err ){
+						//handleError( res, 500, err.message, "Failed to create new user." );
+						res.status( 500 ).json( err );
+					}
+					else{
+						res.status( 204 ).end();
+					}	
+				});
 			}
-	
 		});
 	}
 };
