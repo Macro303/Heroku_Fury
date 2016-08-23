@@ -20,6 +20,7 @@ var User = require( './app/models/user.js' );
 
 var gentleShutdown;
 
+var app = express();
 
 mongoose.connect( uristring, function( err, res ) {
 	if( err ){
@@ -81,7 +82,7 @@ app.use( bodyParser.json() );
 app.use( passport.initialise() );
 app.use( '/api', router );
 
-
+/*
 // Error handlers
 app.use( function( req, res, next ){
 	var err = new Error( 'Not found' );
@@ -98,10 +99,10 @@ app.use( function( err, req, res, next ){
 	}
 		
 });
-
+*/
 
 // ====== Initialise Express ======
-var app = express();
+
 //var router = require( './app/routes/index.js' );
 
 var router = express.Router();
