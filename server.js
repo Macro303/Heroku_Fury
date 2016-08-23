@@ -12,13 +12,14 @@ var mongoose = require("mongoose");
 var passport = require("passport");
 var User = mongoose.model("User");
 
+require('./app/config/passport.js');
+
+require('./app/models/db.js');
+
 // ====== Initialise Express ======
 var app = express();
+var router = require('./app/routes/index.js')
 
-// ====== Get an instance of the Express Router ======
-var router = express.Router();
-
-require('./config.js');
 
 // ====== Setup for bodyParser ======
 app.use( bodyParser.urlencoded( { extended: true } ) );
@@ -31,31 +32,6 @@ app.use( '/api', router );
 
 // ====== Set up the port for listening ======
 var port = process.env.PORT || 8080;
-
-
-// ====== Database set-up ======
-var uristring = process.env.MONGODB_URI;
-
-mongoose.connect( uristring, function( error, response ) {
-	if( error ){
-		console.log( 'ERROR connecting to DB. ' + error );
-	}
-	else{
-		console.log( 'SUCCESS connected to DB' );
-	}
-});
-
-// ====== Generic error handler used by all endpoints. ======
-function handleError( response, reason, message, code ) {
-  console.log( "ERROR: " + reason );
-  response.status( code || 500 ).json( { "error": message } );
-}
-
-// ====== Schema models ======
-//var User = require('./app/models/user.js');
-
-
-
 
 
 //===============================================================
