@@ -15,7 +15,7 @@ var passport = require( 'passport' );
 
 var uristring = process.env.MONGODB_URI;
 
-require( '.app/models/user.js' );
+var User = require( '.app/models/user.js' );
 
 var gentleShutdown;
 
@@ -51,7 +51,7 @@ process.on( 'SIGTERM', function(){
 //require( './app/config/passport.js' );
 
 var LocalStrategy = require( 'passport-local' ).Strategy;
-var User = mongoose.model( 'User' );
+//var User = mongoose.model( 'User' );
 
 passport.use( new LocalStrategy( function( username, password, done ){
 	

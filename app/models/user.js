@@ -37,4 +37,4 @@ userSchema.methods.generateJwt = function(){
 	}, 'SECRET');
 };
 
-mongoose.model( 'User', userSchema );
+module.exports = mongoose.model( 'User', userSchema );
