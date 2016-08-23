@@ -16,7 +16,7 @@ var jwt = require( 'express-jwt' );
 
 var uristring = process.env.MONGODB_URI;
 
-var User = require( '.app/models/user.js' );
+var User = require( './app/models/user.js' );
 
 var gentleShutdown;
 
