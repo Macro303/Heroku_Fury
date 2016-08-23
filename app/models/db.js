@@ -6,7 +6,7 @@ require( './user.js' );
 var gentleShutdown;
 
 
-mongoose.connect( uristring, function( err, resp ) {
+mongoose.connect( uristring, function( err, res ) {
 	if( err ){
 		console.log( 'ERROR connecting to ' + uristring + ' ' + err );
 	}
