@@ -14,7 +14,7 @@ passport.use( new LocalStrategy( function( username, password, done ){
 		if( !user )
 			return done( null, false, { message: 'User not found' } );
 		
-		if( !user.verifyPassword( password ) )
+		if( !user.validPassword( password ) )
 			return done( null, false, { message: 'Password not matched' } );
 
 		return done( null, user );
