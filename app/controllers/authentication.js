@@ -2,17 +2,9 @@ var mongoose = require( 'mongoose' );
 var passport = require( 'passport' );
 var User = require( '../models/user.js' );
 
-/*
-// ====== Generic error handler used by all endpoints. ======
-function handleError( res, code, reason, content ) {
-	console.log( "ERROR: " + reason );
-	res.status( code ).json( { message: content } );
-};
-*/
 module.exports.register = function( req, res ) {
 
 	if ( !req.body.username || !req.body.email || !req.body.password ){
-		//handleError( res, 400, "User info not supplied.", "All fields required." );
 		res.status( 400 ).json( { message: "All fields required." } );
 	}
 	else{
@@ -32,12 +24,10 @@ module.exports.register = function( req, res ) {
 		user.save( function( err ) {
 			if( err ){
 				if( err.code === 11000 || err.code === 11001 ){
-					//handleError( res, 400, err.message, "User already exists." );
-					res.status( 400 ).json( err );
+					res.status( 400 ).json( { message: "User already exists." } );
 				}
 				else{
-					//handleError( res, 500, err.message, "Failed to create new user." );
-					res.status( 500 ).json( err );
+					res.status( 500 ).json( { message: "Server error." } );
 				}
 			}
 			else{
@@ -51,7 +41,6 @@ module.exports.register = function( req, res ) {
 module.exports.login = function( req, res ) {
 	 
 	if ( !req.body.username || !req.body.password ){
-		//handleError( res, 400, "User info not supplied.", "All fields required." );
 		res.status( 400 ).json( { message: "All fields required." } );
 	}
 	else{
@@ -59,8 +48,7 @@ module.exports.login = function( req, res ) {
 			var token;
 		
 			if( err ){
-				//handleError( res, 500 , err.message, "Failed to complete authentication." );
-				res.status( 500 ).json( err );
+				res.status( 500 ).json( { message: "Server error." } );
 			}
 		
 			if( user ){
@@ -68,8 +56,7 @@ module.exports.login = function( req, res ) {
 				res.status( 200 ).json( { "token": token } );
 			}
 			else{
-				//handleError( res, 401, "User not found.", "Authentication Failed." );
-				res.status( 400 ).json( { message: "Authentication Failed." } );
+				res.status( 401 ).json( { message: "Authentication Failed." } );
 			}
 		})( req,res );
 	}
