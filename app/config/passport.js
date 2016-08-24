@@ -1,4 +1,6 @@
-// passport.js
+// app/config/passport.js
+// Main config file for Passport
+
 
 var mongoose = require( 'mongoose' );
 var passport = require( 'passport' );

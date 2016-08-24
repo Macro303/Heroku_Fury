@@ -1,3 +1,6 @@
+// app/routes/index.js
+// Holds all of the routes for the Fury Web service
+
 var express = require( 'express' );
 var jwt = require( 'express-jwt' );
 
@@ -8,13 +11,17 @@ var auth = jwt({
 	userProperty: 'payload'
 });
 
+// Initialise Controllers
 var cntrlrAuth = require( '../controllers/authentication.js' );
 var cntrlrUsers = require( '../controllers/users.js' );
+
+
+// ======= User Route API (/users) =======
 
 // user login
 router.post( '/login', cntrlrAuth.login );
 
-// create new user
+// user registration / create a user
 router.post( '/register', cntrlrAuth.register );
 
 // get all users
@@ -29,4 +36,6 @@ router.put( '/users', auth, cntrlrUsers.updateUser );
 // update a user
 router.delete( '/users', auth, cntrlrUsers.deleteUser );
 
+
+// ======= Router export =======
 module.exports = router;

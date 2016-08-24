@@ -1,3 +1,6 @@
+// app/models/db.js
+// Main config file for MongoDB
+
 var mongoose = require( 'mongoose' );
 var uristring = process.env.MONGODB_URI;
 require( './user.js' );

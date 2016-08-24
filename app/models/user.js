@@ -1,4 +1,5 @@
 // app/models/user.js
+// User schema for Fury Web Service
 
 var mongoose = require( 'mongoose' );
 var crypto = require( 'crypto' );

@@ -1,7 +1,11 @@
+// app/controllers/authentication.js
+// Controller for authentication routes
+
 var mongoose = require( 'mongoose' );
 var passport = require( 'passport' );
 var User = require( '../models/user.js' );
 
+// user login
 module.exports.register = function( req, res ) {
 
 	if ( !req.body.username || !req.body.email || !req.body.password ){
@@ -38,6 +42,7 @@ module.exports.register = function( req, res ) {
 	
 };
 
+// user registration / create a user
 module.exports.login = function( req, res ) {
 	 
 	if ( !req.body.username || !req.body.password ){
@@ -53,7 +58,7 @@ module.exports.login = function( req, res ) {
 		
 			if( user ){
 				token = user.generateJwt();
-				res.status( 200 ).json( { "token": token } );
+				res.status( 200 ).json( { token: token } );
 			}
 			else{
 				res.status( 401 ).json( { message: "Authentication Failed." } );

@@ -1,8 +1,8 @@
 // server.js
-
+// Main Server file for the Fury Web Service
 
 // ===============================================================
-// ====================== Initialization =========================
+// ====================== Package Initialization =================
 // ===============================================================
 
 // ====== Package calls ======
@@ -10,52 +10,35 @@ var express = require( 'express' );
 var bodyParser = require( 'body-parser' );
 var mongoose = require( 'mongoose' );
 var passport = require( 'passport' );
+//var jwt = require( 'express-jwt' );
 
-var jwt = require( 'express-jwt' );
 require( './app/models/db.js' );
-
-var app = express();
-
 require( './app/config/passport.js' );
-/*
-var LocalStrategy = require( 'passport-local' ).Strategy;
-//var User = mongoose.model( 'User' );
-
-passport.use( new LocalStrategy( function( username, password, done ){
-	
-	User.findOne({ username:username }, function( err, user ){
-		if( err )
-			return done( err );
-
-		if( !user )
-			return done( null, false, { message: 'User not found' } );
-		
-		if( !user.validPassword( password ) )
-			return done( null, false, { message: 'Password not matched' } );
-
-		return done( null, user );
-	});
-}));
-*/	
 
 // ===============================================================
 // =================== App Initialization ========================
 // ===============================================================
 
+var app = express();
+
+// ====== Initialise BodyParser ======
 app.use( bodyParser.urlencoded( { extended: true } ) );
 app.use( bodyParser.json() );
 
+// ====== Initialise Passport ======
 app.use( passport.initialize() );
 
 
+
+// ====== Initialise Error Handlers ======
 /*
-// Error handlers
 app.use( function( req, res, next ){
 	var err = new Error( 'Not found' );
 	err.status = 404;
 	next( err );
 });
 */
+
 app.use( function( err, req, res, next ){
 	if( err.name === 'UnauthorizedError' ){
 		res.status( 401 ).json( { message: "Unauthorised Access" } );
@@ -66,19 +49,14 @@ app.use( function( err, req, res, next ){
 		
 });
 
-
-// ====== Initialise Express ======
-
-var router = require( './app/routes/index.js' );
-
 // ===============================================================
 // =================== Final initialisation ======================
 // ===============================================================
 
-// ====== Set up the port for listening ======
+// ====== Initialise Routes ======
+var router = require( './app/routes/index.js' );
 app.use( '/api', router );
-var port = process.env.PORT || 8080;
 
-// Sets the port to listen on
+// ====== Set up the port for listening ======
+var port = process.env.PORT || 8080;
 app.listen( port );
-console.log( 'Server now running on port' + port );

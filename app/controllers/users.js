@@ -1,6 +1,8 @@
+// app/controllers/users.js
+// Controller for users routes
+
 var mongoose = require( 'mongoose' );
 var User = require( '../models/user.js' );
-
 
 module.exports.findAllUsers = function( req, res ) {
 	
@@ -27,7 +29,6 @@ module.exports.findUser = function( req, res ) {
 			else{
 				res.status( 200 ).json( users );
 			}
-	
 		});
 	}
 };
@@ -48,7 +49,6 @@ module.exports.updateUser = function( req, res ) {
 			else{
 				if(newEmail)
 					user.email = newEmail;
-				
 				if(newPassword)
 					user.setPassword( newPassword );
 				
@@ -80,7 +80,6 @@ module.exports.deleteUser = function( req, res ) {
 			else{
 				res.status( 204 ).end();
 			}
-	
 		});
 	}
 };
