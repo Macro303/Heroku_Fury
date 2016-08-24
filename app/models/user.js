@@ -4,6 +4,7 @@
 var mongoose = require( 'mongoose' );
 var crypto = require( 'crypto' );
 var jwt = require( 'jsonwebtoken' );
+var SECRET = provess.env.SECRET;
 
 var userSchema = new mongoose.Schema({
 	username: { type: String, required:true, unique:true },
@@ -36,7 +37,7 @@ userSchema.methods.generateJwt = function(){
 		exp: parseInt( expiry.getTime() / 1000 ),
 	};
 	
-	return jwt.sign( token, 'SECRET');
+	return jwt.sign( token, SECRET );
 };
 
 module.exports = mongoose.model( 'User', userSchema );

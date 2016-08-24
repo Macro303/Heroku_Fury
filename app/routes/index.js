@@ -3,11 +3,12 @@
 
 var express = require( 'express' );
 var jwt = require( 'express-jwt' );
+var SECRET = provess.env.SECRET;
 
 var router = express.Router();
 
 var auth = jwt({
-	secret: 'SECRET',
+	secret: SECRET,
 	userProperty: 'payload'
 });
 
