@@ -46,7 +46,7 @@ app.use( function( req, res, next ){
 
 app.use( function( err, req, res, next ){
 	if( err.name === 'UnauthorizedError' )
-		res..end( 401 );
+		res.end( 401 );
 });
 
 app.use( function( err, req, res, next ){
