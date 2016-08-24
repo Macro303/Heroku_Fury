@@ -3,7 +3,7 @@
 
 var express = require( 'express' );
 var jwt = require( 'express-jwt' );
-var SECRET = provess.env.SECRET;
+var SECRET = process.env.SECRET;
 
 var router = express.Router();
 

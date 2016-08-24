@@ -4,7 +4,7 @@
 var mongoose = require( 'mongoose' );
 var crypto = require( 'crypto' );
 var jwt = require( 'jsonwebtoken' );
-var SECRET = provess.env.SECRET;
+var SECRET = process.env.SECRET;
 
 var userSchema = new mongoose.Schema({
 	username: { type: String, required:true, unique:true },
