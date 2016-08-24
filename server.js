@@ -13,12 +13,14 @@ var passport = require( 'passport' );
 
 var jwt = require( 'express-jwt' );
 require( './app/models/db.js' );
+
+var app = express();
 /*
 var uristring = process.env.MONGODB_URI;
 
 var User = require( './app/models/user.js' );
 
-var app = express();
+
 
 mongoose.connect( uristring, function( err, res ) {
 	if( err ){
