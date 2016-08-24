@@ -46,11 +46,11 @@ app.use( function( req, res, next ){
 
 app.use( function( err, req, res, next ){
 	if( err.name === 'UnauthorizedError' )
-		res.status( 401 ).end();
+		res..end( 401 );
 });
 
 app.use( function( err, req, res, next ){
-	res.status( err.status || 500 ).end();	
+	res.end( err.status || 500 );	
 });
 
 // ====== Set up the port for listening ======
