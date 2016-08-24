@@ -38,13 +38,11 @@ module.exports.updateUser = function( req, res ) {
 	var newEmail = req.body.email;
 	
 	if ( !req.payload._id ){
-		//handleError( res, 401, "No payload in request.", "Unauthorised access." );
 		res.status( 401 ).json( { message: "Unauthorised access." } );
 	}
 	else{
 		User.findById( req.payload._id, function( err,user ) {
 			if( err ){
-				//handleError( res, 500, err.message, "Failed to update user." );
 				res.status( 500 ).json( { message: "Server error." } );
 			}
 			else{
@@ -58,7 +56,7 @@ module.exports.updateUser = function( req, res ) {
 				
 				user.save( function( err ) {
 					if( err ){
-						res.status( 500 ).json( message: "Server error." );
+						res.status( 500 ).json( { message: "Server error." } );
 					}
 					else{
 						res.status( 204 ).end();
@@ -72,13 +70,11 @@ module.exports.updateUser = function( req, res ) {
 module.exports.deleteUser = function( req, res ) {
 	
 	if ( !req.payload._id ){
-		//handleError( res, 401, "No payload in request.", "Unauthorised access." );
 		res.status( 401 ).json( { message: "Unauthorised access." } );
 	}
 	else{
 		User.findByIdAndRemove( req.payload._id , function( err,users ) {
 			if( err ){
-				//handleError( res, 500, err.message, "Failed to delete user." );
 				res.status( 500 ).json( { message: "Server error." } );
 			}
 			else{
