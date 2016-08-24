@@ -5,6 +5,7 @@ var mongoose = require( 'mongoose' );
 var uristring = process.env.MONGODB_URI;
 require( './user.js' );
 
+mongoose.Promise = global.Promise;
 mongoose.connect( uristring, function( err, res ) {
 	if( err ){
 		console.log( 'ERROR connecting to ' + uristring + ' ' + err );
