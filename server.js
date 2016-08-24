@@ -36,13 +36,14 @@ app.use( passport.initialize() );
 var router = require( './app/routes/index.js' );
 app.use( '/api', router );
 
+/*
 // ====== Initialise Error Handlers ======
 app.use( function( req, res, next ){
 	var err = new Error( 'Not found' );
 	err.status = 404;
 	next( err );
 });
-
+*/
 
 app.use( function( err, req, res, next ){
 	if( err.name === 'UnauthorizedError' ){
