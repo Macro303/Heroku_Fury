@@ -12,7 +12,7 @@ mongoose.connect( uristring, function( err, res ) {
 });
 
 var gentleShutdown = function( msg, callback ){
-	mongoose.connection.close( function{
+	mongoose.connection.close( function() {
 		console.log( 'Mongoose disconnected through ' + msg );
 		callback();
 	});
