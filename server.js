@@ -101,8 +101,8 @@ app.use( function( err, req, res, next ){
 
 // ====== Initialise Express ======
 
-//var router = require( './app/routes/index.js' );
-
+var router = require( './app/routes/index.js' );
+/*
 var router = express.Router();
 
 var auth = jwt({
@@ -130,7 +130,7 @@ router.put( '/users', auth, cntrlrUsers.updateUser );
 
 // update a user
 router.delete( '/users', auth, cntrlrUsers.deleteUser );
-
+*/
 
 // ===============================================================
 // =================== Final initialisation ======================
