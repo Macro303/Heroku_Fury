@@ -15,43 +15,9 @@ var jwt = require( 'express-jwt' );
 require( './app/models/db.js' );
 
 var app = express();
+
+require( './app/config/passport.js' );
 /*
-var uristring = process.env.MONGODB_URI;
-
-var User = require( './app/models/user.js' );
-
-
-
-mongoose.connect( uristring, function( err, res ) {
-	if( err ){
-		console.log( 'ERROR connecting to ' + uristring + ' ' + err );
-	}
-	else{
-		console.log( 'SUCCESS connected to ' + uristring );
-	}
-});
-
-var gentleShutdown = function( msg, callback ){
-	mongoose.connection.close( function(){
-		console.log( 'Mongoose disconnected through ' + msg );
-		callback();
-	});
-};
-
-process.on( 'SIGINT', function(){
-	gentleShutdown( 'App termination', function(){
-		process.exit( 0 );
-	});
-});
-
-process.on( 'SIGTERM', function(){
-	gentleShutdown( 'Heroku app termination', function(){
-		process.exit( 0 );
-	});
-});
-*/
-//require( './app/config/passport.js' );
-
 var LocalStrategy = require( 'passport-local' ).Strategy;
 //var User = mongoose.model( 'User' );
 
@@ -70,7 +36,7 @@ passport.use( new LocalStrategy( function( username, password, done ){
 		return done( null, user );
 	});
 }));
-	
+*/	
 
 // ===============================================================
 // =================== App Initialization ========================
