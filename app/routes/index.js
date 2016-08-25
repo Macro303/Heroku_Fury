@@ -15,6 +15,7 @@ var auth = jwt({
 // Initialise Controllers
 var cntrlrAuth = require( '../controllers/authentication.js' );
 var cntrlrUsers = require( '../controllers/users.js' );
+var cntrlrProjects = require( '../controllers/projects.js' );
 
 
 // ======= User Route API (/users) =======
@@ -34,9 +35,22 @@ router.post( '/users', auth, cntrlrUsers.findUser );
 // update a user
 router.put( '/users', auth, cntrlrUsers.updateUser );
 
-// update a user
+// delete a user
 router.delete( '/users', auth, cntrlrUsers.deleteUser );
 
+// ======= Project Route API (/projects) =======
+
+// get all projects
+router.get( '/projects', auth, cntrlrProjects.findAllProjects );
+
+// get a project
+router.post( '/projects', auth, cntrlrProjects.findProject );
+
+// update a project
+router.put( '/projects', auth, cntrlrProjects.updateProject );
+
+// delete a project
+router.delete( '/projects', auth, cntrlrProjects.deleteProject );
 
 // ======= Router export =======
 module.exports = router;
