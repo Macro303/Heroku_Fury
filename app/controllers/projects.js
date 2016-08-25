@@ -19,9 +19,13 @@ module.exports.findProject = function( req, res ) {
 };
 
 module.exports.updateProject = function( req, res ) {
-	res.status( 200 ).json( { message:'Test updateProject route'} );
+	var projectParams = req.params.project;
+	
+	res.status( 200 ).json( { message:'Test updateProject route for ' + projectParams } );
 };
 
 module.exports.deleteProject = function( req, res ) {
-	res.status( 200 ).json( { message:'Test deleteProject route'} );
+	var projectParams = req.params.project;
+	
+	res.status( 200 ).json( { message:'Test deleteProject route for ' + projectParams } );
 };

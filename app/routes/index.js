@@ -40,20 +40,20 @@ router.delete( '/users', auth, cntrlrUsers.deleteUser );
 
 // ======= Project Route API (/projects) =======
 
-// get all projects
-router.get( '/projects', auth, cntrlrProjects.findAllProjects );
-
-// get a project
-router.get( '/projects/:project', auth, cntrlrProjects.findProject );
-
 // create a project
 router.post( '/projects', auth, cntrlrProjects.createProject );
 
+// get all projects user attached to
+router.get( '/projects', auth, cntrlrProjects.findAllProjects );
+
+// get a specific project
+router.get( '/projects/:project', auth, cntrlrProjects.findProject );
+
 // update a project
-router.put( '/projects', auth, cntrlrProjects.updateProject );
+router.put( '/projects/:project', auth, cntrlrProjects.updateProject );
 
 // delete a project
-router.delete( '/projects', auth, cntrlrProjects.deleteProject );
+router.delete( '/projects/:project', auth, cntrlrProjects.deleteProject );
 
 // ======= Router export =======
 module.exports = router;
