@@ -44,7 +44,10 @@ router.delete( '/users', auth, cntrlrUsers.deleteUser );
 router.get( '/projects', auth, cntrlrProjects.findAllProjects );
 
 // get a project
-router.post( '/projects', auth, cntrlrProjects.findProject );
+router.get( '/projects/:project', auth, cntrlrProjects.findProject );
+
+// create a project
+router.post( '/projects', auth, cntrlrProjects.createProject );
 
 // update a project
 router.put( '/projects', auth, cntrlrProjects.updateProject );

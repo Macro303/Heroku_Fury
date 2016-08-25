@@ -4,18 +4,24 @@
 var mongoose = require( 'mongoose' );
 var Project = require( '../models/project.js' );
 
+module.exports.createProject = function( req, res ) {
+	res.status( 200 ).json( { message:'Test createProject route'} );
+};
+
 module.exports.findAllProjects = function( req, res ) {
-	res.status( 200 ).json( { message:'Test FindAllProjects route'} );
+	res.status( 200 ).json( { message:'Test findAllProjects route'} );
 };
 
 module.exports.findProject = function( req, res ) {
-	res.status( 200 ).json( { message:'Test FindProjects route'} );
+	var projectParams = req.params.project;
+	
+	res.status( 200 ).json( { message:'Test findProject route for ' + projectParams } );
 };
 
 module.exports.updateProject = function( req, res ) {
-	res.status( 200 ).json( { message:'Test UpdateProjects route'} );
+	res.status( 200 ).json( { message:'Test updateProject route'} );
 };
 
 module.exports.deleteProject = function( req, res ) {
-	res.status( 200 ).json( { message:'Test DeleteProjects route'} );
+	res.status( 200 ).json( { message:'Test deleteProject route'} );
 };
