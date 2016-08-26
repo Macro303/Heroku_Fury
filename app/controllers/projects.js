@@ -113,17 +113,7 @@ module.exports.updateProject = function( req, res ) {
 						project.description = newDescription;
 				
 					if( newUser ){
-						User.findOne( { username:newUser }, function( err, user ) {
-							if( err ){
-								res.status( 500 ).json({ message: "Server error." });
-							}
-							else{
-								if( user ){
-									project.usersOnProject.push( user.username.toString() );
-								}
-							}
-						});
-						
+						project.usersOnProject.push( newUser );
 					}
 			
 					project.updated_at = Date.now();
