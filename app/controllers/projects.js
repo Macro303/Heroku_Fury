@@ -54,7 +54,7 @@ module.exports.findAllProjects = function( req, res ) {
 	
 		Project.find( query, 'name description usersOnProject', function( err,projects ) {
 			if( err ){
-				res.status( 500 ).json( { message: "Server error." } );
+				res.status( 500 ).json({ message: "Server error." });
 			}
 			else{
 				if( projects ) {
@@ -97,17 +97,17 @@ module.exports.updateProject = function( req, res ) {
 	var newUser = req.body.username;
 	
 	if ( !req.payload._id ){
-		res.status( 401 ).json( { message: "Unauthorised access." } );
+		res.status( 401 ).json({ message: "Unauthorised access." });
 	}
 	else{
 		var query = { name:req.params.project };
 		
 		Project.findOne( query, function( err, project ) {
 			if( err ){
-				res.status( 500 ).json( { message: "Server error." } );
+				res.status( 500 ).json({ message: "Server error." });
 			}
 			else{
-				if( newDescription )
+				if( newDescription ) 
 					project.description = newDescription;
 				
 				if( newUser )
@@ -117,10 +117,10 @@ module.exports.updateProject = function( req, res ) {
 				
 				project.save( function( err ) {
 					if( err ){
-						res.status( 500 ).json( { message: "Server error." } );
+						res.status( 500 ).json({ message: "Server error." });
 					}
 					else{
-						res.status( 200 ).json( message: "Update successful." );
+						res.status( 200 ).json({ message: "Update successful." });
 					}	
 				});
 			}
@@ -138,33 +138,33 @@ module.exports.deleteProject = function( req, res ) {
 		var user = req.payload.username;
 		Project.findOne( query, function( err,project ) {
 			if( err ){
-				res.status( 500 ).json( { message: "Server error." } );
+				res.status( 500 ).json({ message: "Server error." });
 			}
 			else{
 				if( project ){
 					if( project.usersOnProject.length > 1 ){
 						Project.findOneAndUpdate( query, { $pull:{ usersOnProject:user } }, function( err ){
 							if( err ){
-								res.status( 500 ).json( { message: "Server error." } );
+								res.status( 500 ).json({ message: "Server error." });
 							}
 							else{
-								res.status( 200 ).json( message: "Delete successful." );
+								res.status( 200 ).json({ message: "Delete successful." });
 							}
 						});
 					}
 					else{
 						Project.findOneAndRemove( query, function( err ){
 							if( err ){
-								res.status( 500 ).json( { message: "Server error." } );
+								res.status( 500 ).json({ message: "Server error." });
 							}
 							else{
-								res.status( 200 ).json( message: "Delete successful." );
+								res.status( 200 ).json({ message: "Delete successful." });
 							}
 						});
 					}
 				}
 				else{
-					res.status( 400 ).json( { message: "Project does not exist." } );
+					res.status( 400 ).json({ message: "Project does not exist." });
 				}
 			}
 		});
