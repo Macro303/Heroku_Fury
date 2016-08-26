@@ -6,7 +6,7 @@ var User = require( '../models/user.js' );
 
 module.exports.findAllUsers = function( req, res ) {
 	
-	User.find({}, 'username', function( err,users ) {
+	User.find( {}, 'username', function( err,users ) {
 		if( err ){
 			res.status( 500 ).json( { message: "Server error." } );
 		}
