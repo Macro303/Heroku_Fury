@@ -24,7 +24,7 @@ module.exports.createProject = function( req, res ) {
 				created_by: user
 			});
 			
-			project.usersOnProject.push({ username:user });
+			project.usersOnProject.push( user );
 			
 			project.save( function( err ) {
 				if( err ){
