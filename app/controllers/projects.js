@@ -3,6 +3,7 @@
 
 var mongoose = require( 'mongoose' );
 var Project = require( '../models/project.js' );
+var User = require( '../models/user.js' );
 
 module.exports.createProject = function( req, res ) {
 	
@@ -111,8 +112,19 @@ module.exports.updateProject = function( req, res ) {
 					if( newDescription ) 
 						project.description = newDescription;
 				
-					if( newUser )
-						project.usersOnProject.push( newUser );
+					if( newUser ){
+						User.findOne( { username:newuser }, 'username', function( err, user ) {
+							if( err ){
+								res.status( 500 ).json({ message: "Server error." });
+							}
+							else{
+								if( user ){
+									project.usersOnProject.push( user.username );
+								}
+							}
+						});
+						
+					}
 			
 					project.updated_at = Date.now();
 				
