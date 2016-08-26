@@ -45,7 +45,22 @@ module.exports.createProject = function( req, res ) {
 };
 
 module.exports.findAllProjects = function( req, res ) {
-	res.status( 200 ).json({ message:'Test findAllProjects route'});
+	
+	if ( !req.payload._id ){
+		res.status( 401 ).json({ message: "Unauthorised access." });
+	}
+	else{
+		var query = { usersOnProject:req.payload.username }
+	
+		Project.find( query, 'name', function( err,projects ) {
+			if( err ){
+				res.status( 500 ).json( { message: "Server error." } );
+			}
+			else{
+				res.status( 200 ).json( projects );
+			}
+		});
+	}
 };
 
 module.exports.findProject = function( req, res ) {
