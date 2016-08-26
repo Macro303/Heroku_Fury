@@ -100,30 +100,34 @@ module.exports.updateProject = function( req, res ) {
 		res.status( 401 ).json({ message: "Unauthorised access." });
 	}
 	else{
-		var query = { name:req.params.project };
+		var query = { name:req.params.project, usersOnProject:req.payload.username };
 		
 		Project.findOne( query, function( err, project ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
 			}
 			else{
-				if( newDescription ) 
-					project.description = newDescription;
+				if( project ) {
+					if( newDescription ) 
+						project.description = newDescription;
 				
-				if( newUser )
-					project.usersOnProject.push( newUser );
+					if( newUser )
+						project.usersOnProject.push( newUser );
 			
-				project.updated_at = Date.now();
+					project.updated_at = Date.now();
 				
-				project.save( function( err ) {
-					if( err ){
-						res.status( 500 ).json({ message: "Server error." });
-					}
-					else{
-						res.status( 200 ).json({ message: "Update successful." });
-					}	
-				});
-			}
+					project.save( function( err ) {
+						if( err ){
+							res.status( 500 ).json({ message: "Server error." });
+						}
+						else{
+							res.status( 200 ).json({ message: "Update successful." });
+						}	
+					});
+				}
+				else{
+					res.status( 400 ).json({ message: "No matches found." });
+				}
 		});
 	}
 };
@@ -134,7 +138,7 @@ module.exports.deleteProject = function( req, res ) {
 		res.status( 401 ).json( { message: "Unauthorised access." } );
 	}
 	else{
-		var query = { name:req.params.project };
+		var query = { name:req.params.project, usersOnProject:req.payload.username };
 		var user = req.payload.username;
 		Project.findOne( query, function( err,project ) {
 			if( err ){
