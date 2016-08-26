@@ -93,7 +93,7 @@ module.exports.findProject = function( req, res ) {
 };
 
 module.exports.updateProject = function( req, res ) {
-	var description = req.body.description;
+	var newDescription = req.body.description;
 	var newUser = req.body.username;
 	
 	if ( !req.payload._id ){
