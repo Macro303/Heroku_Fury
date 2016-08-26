@@ -74,7 +74,7 @@ module.exports.findProject = function( req, res ) {
 		res.status( 401 ).json({ message: "Unauthorised access." });
 	}
 	else{
-		var query = { name:req.params.project };
+		var query = { name:req.params.project, usersOnProject:req.payload.username };
 		
 		Project.findOne( query, 'name description usersOnProject', function( err,project ) {
 			if( err ){
@@ -82,7 +82,12 @@ module.exports.findProject = function( req, res ) {
 			}
 			else{
 				if( project ) {
-					res.status( 200 ).json( project );	
+					if (user){
+						res.status( 200 ).json( project );	
+					}
+					else{
+						res.status( 400 ).json({ message: "No matches found." });
+					}
 				}
 				else{
 					res.status( 400 ).json({ message: "No matches found." });
