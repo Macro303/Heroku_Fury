@@ -47,9 +47,9 @@ module.exports.updateUser = function( req, res ) {
 				res.status( 500 ).json( { message: "Server error." } );
 			}
 			else{
-				if(newEmail)
+				if( newEmail )
 					user.email = newEmail;
-				if(newPassword)
+				if( newPassword )
 					user.setPassword( newPassword );
 				
 				user.updated_at = Date.now();
@@ -73,7 +73,7 @@ module.exports.deleteUser = function( req, res ) {
 		res.status( 401 ).json( { message: "Unauthorised access." } );
 	}
 	else{
-		User.findByIdAndRemove( req.payload._id , function( err,users ) {
+		User.findByIdAndRemove( req.payload._id , function( err ) {
 			if( err ){
 				res.status( 500 ).json( { message: "Server error." } );
 			}

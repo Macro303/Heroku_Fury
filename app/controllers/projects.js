@@ -94,8 +94,37 @@ module.exports.findProject = function( req, res ) {
 
 module.exports.updateProject = function( req, res ) {
 	var projectParams = req.params.project;
+	var description = req.body.description;
+	var newUser = req.body.username;
 	
-	res.status( 200 ).json({ message:'Test updateProject route for ' + projectParams });
+	if ( !req.payload._id ){
+		res.status( 401 ).json( { message: "Unauthorised access." } );
+	}
+	else{
+		Project.findOne( query, function( err, project ) {
+			if( err ){
+				res.status( 500 ).json( { message: "Server error." } );
+			}
+			else{
+				if( description )
+					project.description = newDescription;
+				
+				if( newUser )
+					project.usersOnProject.push( newUser );
+			
+				project.updated_at = Date.now();
+				
+				project.save( function( err ) {
+					if( err ){
+						res.status( 500 ).json( { message: "Server error." } );
+					}
+					else{
+						res.status( 204 ).end();
+					}	
+				)};
+			}
+		});
+	}
 };
 
 module.exports.deleteProject = function( req, res ) {
@@ -111,25 +140,30 @@ module.exports.deleteProject = function( req, res ) {
 				res.status( 500 ).json( { message: "Server error." } );
 			}
 			else{
-				if( project.usersOnProject.length > 1 ){
-					Project.findOneAndUpdate( query, { $pull:{ usersOnProject:user } }, function( err ){
-						if( err ){
-							res.status( 500 ).json( { message: "Server error." } );
-						}
-						else{
-							res.status( 204 ).end();
-						}
-					});
+				if( project ){
+					if( project.usersOnProject.length > 1 ){
+						Project.findOneAndUpdate( query, { $pull:{ usersOnProject:user } }, function( err ){
+							if( err ){
+								res.status( 500 ).json( { message: "Server error." } );
+							}
+							else{
+								res.status( 204 ).end();
+							}
+						});
+					}
+					else{
+						Project.findOneAndRemove( query, function( err ){
+							if( err ){
+								res.status( 500 ).json( { message: "Server error." } );
+							}
+							else{
+								res.status( 204 ).end();
+							}
+						});
+					}
 				}
 				else{
-					Project.findOneAndRemove( query, function( err ){
-						if( err ){
-							res.status( 500 ).json( { message: "Server error." } );
-						}
-						else{
-							res.status( 204 ).end();
-						}
-					});
+					res.status( 400 ).json( { message: "Project does not exist." } );
 				}
 			}
 		});
