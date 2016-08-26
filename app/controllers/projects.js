@@ -93,7 +93,6 @@ module.exports.findProject = function( req, res ) {
 };
 
 module.exports.updateProject = function( req, res ) {
-	var projectParams = req.params.project;
 	var description = req.body.description;
 	var newUser = req.body.username;
 	
@@ -101,6 +100,8 @@ module.exports.updateProject = function( req, res ) {
 		res.status( 401 ).json( { message: "Unauthorised access." } );
 	}
 	else{
+		var query = { name:req.params.project };
+		
 		Project.findOne( query, function( err, project ) {
 			if( err ){
 				res.status( 500 ).json( { message: "Server error." } );
