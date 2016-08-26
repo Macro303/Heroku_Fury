@@ -52,7 +52,7 @@ module.exports.findAllProjects = function( req, res ) {
 	else{
 		var query = { usersOnProject:req.payload.username }
 	
-		Project.find( query, 'name', function( err,projects ) {
+		Project.find( query, 'name usersOnProject', function( err,projects ) {
 			if( err ){
 				res.status( 500 ).json( { message: "Server error." } );
 			}
@@ -66,7 +66,21 @@ module.exports.findAllProjects = function( req, res ) {
 module.exports.findProject = function( req, res ) {
 	var projectParams = req.params.project;
 	
-	res.status( 200 ).json({ message:'Test findProject route for ' + projectParams });
+	if ( !req.payload._id ){
+		res.status( 401 ).json({ message: "Unauthorised access." });
+	}
+	else{
+		var query = { name:projectParams };
+	
+		Project.findOne( query, function( err,project ) {
+			if( err ){
+				res.status( 500 ).json( { message: "Server error." } );
+			}
+			else{
+				res.status( 200 ).json( project );
+			}
+		});
+	}
 };
 
 module.exports.updateProject = function( req, res ) {
