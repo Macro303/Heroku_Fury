@@ -119,7 +119,7 @@ module.exports.updateProject = function( req, res ) {
 							}
 							else{
 								if( user ){
-									project.usersOnProject.push( user.username );
+									project.usersOnProject.push( user.username.toString() );
 								}
 							}
 						});
