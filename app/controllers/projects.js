@@ -83,7 +83,7 @@ module.exports.findProject = function( req, res ) {
 			}
 			else{
 				if( project ) {
-						res.status( 200 ).json( project );	
+						res.status( 200 ).json( [ project ] );	
 				}
 				else{
 					res.status( 400 ).json({ message: "No matches found." });
@@ -113,7 +113,7 @@ module.exports.updateProject = function( req, res ) {
 						project.description = newDescription;
 				
 					if( newUser ){
-						User.findOne( { username:newuser }, 'username', function( err, user ) {
+						User.findOne( { username:newUser }, function( err, user ) {
 							if( err ){
 								res.status( 500 ).json({ message: "Server error." });
 							}
