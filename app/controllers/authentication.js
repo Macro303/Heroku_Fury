@@ -5,7 +5,7 @@ var mongoose = require( 'mongoose' );
 var passport = require( 'passport' );
 var User = require( '../models/user.js' );
 
-// user login
+// user registration / create a user
 module.exports.register = function( req, res ) {
 
 	if ( !req.body.username || !req.body.email || !req.body.password ){
@@ -34,14 +34,13 @@ module.exports.register = function( req, res ) {
 				}
 			}
 			else{
-				res.status( 204 ).end();
+				res.status( 201 ).json( message: "Registration Successful." );
 			}
 		});
 	}
 	
 };
-
-// user registration / create a user
+// user login
 module.exports.login = function( req, res ) {
 	 
 	if ( !req.body.username || !req.body.password ){

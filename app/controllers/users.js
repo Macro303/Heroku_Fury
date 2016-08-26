@@ -6,7 +6,7 @@ var User = require( '../models/user.js' );
 
 module.exports.findAllUsers = function( req, res ) {
 	
-	User.find( {}, 'username', function( err,users ) {
+	User.find( {}, 'username', function( err, users ) {
 		if( err ){
 			res.status( 500 ).json( { message: "Server error." } );
 		}
@@ -22,12 +22,12 @@ module.exports.findUser = function( req, res ) {
 		res.status( 401 ).json( { message: "Unauthorised access." } );
 	}
 	else{
-		User.findById( req.payload._id , 'username email', function( err,users ) {
+		User.findById( req.payload._id , 'username email', function( err, user ) {
 			if( err ){
 				res.status( 500 ).json( { message: "Server error." } );
 			}
 			else{
-				res.status( 200 ).json( users );
+				res.status( 200 ).json( user );
 			}
 		});
 	}
@@ -59,7 +59,7 @@ module.exports.updateUser = function( req, res ) {
 						res.status( 500 ).json( { message: "Server error." } );
 					}
 					else{
-						res.status( 204 ).end();
+						res.status( 200 ).json( message: "Update successful." );
 					}	
 				});
 			}
@@ -78,7 +78,7 @@ module.exports.deleteUser = function( req, res ) {
 				res.status( 500 ).json( { message: "Server error." } );
 			}
 			else{
-				res.status( 204 ).end();
+				res.status( 200 ).json( message: "Delete successful." );
 			}
 		});
 	}

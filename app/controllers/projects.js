@@ -36,7 +36,7 @@ module.exports.createProject = function( req, res ) {
 					}
 				}
 				else{
-					res.status( 204 ).end();
+					res.status( 201 ).json({ message: "Project creation successful." });
 				}
 			});
 		}
@@ -76,9 +76,9 @@ module.exports.findProject = function( req, res ) {
 	else{
 		var query = { name:req.params.project };
 		
-		Project.findOne( query, function( err,project ) {
+		Project.findOne( query, 'name description usersOnProject', function( err,project ) {
 			if( err ){
-				res.status( 500 ).json( { message: "Server error." } );
+				res.status( 500 ).json({ message: "Server error." });
 			}
 			else{
 				if( project ) {
@@ -107,7 +107,7 @@ module.exports.updateProject = function( req, res ) {
 				res.status( 500 ).json( { message: "Server error." } );
 			}
 			else{
-				if( description )
+				if( newDescription )
 					project.description = newDescription;
 				
 				if( newUser )
@@ -120,7 +120,7 @@ module.exports.updateProject = function( req, res ) {
 						res.status( 500 ).json( { message: "Server error." } );
 					}
 					else{
-						res.status( 204 ).end();
+						res.status( 200 ).json( message: "Update successful." );
 					}	
 				});
 			}
@@ -148,7 +148,7 @@ module.exports.deleteProject = function( req, res ) {
 								res.status( 500 ).json( { message: "Server error." } );
 							}
 							else{
-								res.status( 204 ).end();
+								res.status( 200 ).json( message: "Delete successful." );
 							}
 						});
 					}
@@ -158,7 +158,7 @@ module.exports.deleteProject = function( req, res ) {
 								res.status( 500 ).json( { message: "Server error." } );
 							}
 							else{
-								res.status( 204 ).end();
+								res.status( 200 ).json( message: "Delete successful." );
 							}
 						});
 					}
