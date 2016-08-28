@@ -83,7 +83,7 @@ module.exports.findProject = function( req, res ) {
 			}
 			else{
 				if( project ) {
-						res.status( 200 ).json( [ project ] );	
+					res.status( 200 ).json( [ project ] );	
 				}
 				else{
 					res.status( 400 ).json({ message: "No matches found." });

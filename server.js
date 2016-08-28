@@ -10,7 +10,6 @@ var express = require( 'express' );
 var bodyParser = require( 'body-parser' );
 var mongoose = require( 'mongoose' );
 var passport = require( 'passport' );
-//var jwt = require( 'express-jwt' );
 
 require( './app/models/db.js' );
 require( './app/config/passport.js' );
@@ -46,7 +45,7 @@ app.use( function( req, res, next ){
 
 app.use( function( err, req, res, next ){
 	if( err.name === 'UnauthorizedError' ){
-		res.status( 401 ).json( { message: "Unauthorised Access" } );
+		res.status( 401 ).json({ message: "Unauthorised Access" });
 	}
 	else{
 		next( err );
@@ -54,7 +53,7 @@ app.use( function( err, req, res, next ){
 });
 
 app.use( function( err, req, res, next ){
-	res.status( err.status || 500 ).json( { message: err.message } );	
+	res.status( err.status || 500 ).json({ message: err.message });	
 });
 
 // ====== Set up the port for listening ======
