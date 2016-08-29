@@ -19,7 +19,7 @@ module.exports.createTask = function( req, res ){
 			
 			var task = new Task({
 				name: req.body.name,
-				description: req.body.description;,
+				description: req.body.description,
 				projectParent: req.body.project
 			});
 			
