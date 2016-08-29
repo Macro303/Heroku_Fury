@@ -4,6 +4,7 @@
 var mongoose = require( 'mongoose' );
 var Project = require( '../models/project.js' );
 var User = require( '../models/user.js' );
+var Task = require( '../models/task.js' );
 
 module.exports.createProject = function( req, res ) {
 	
@@ -155,14 +156,23 @@ module.exports.deleteProject = function( req, res ) {
 						});
 					}
 					else{
-						Project.findOneAndRemove( query, function( err ){
+						Task.remove( { projectParent:req.params.project }, function( err ){
 							if( err ){
 								res.status( 500 ).json({ message: "Server error." });
 							}
 							else{
-								res.status( 200 ).json({ message: "Delete successful." });
+								Project.findOneAndRemove( query, function( err ){
+								if( err ){
+									res.status( 500 ).json({ message: "Server error." });
+								}
+								else{
+									res.status( 200 ).json({ message: "Delete successful." });
+								}
+								});
 							}
-						});
+						}); 
+						
+						
 					}
 				}
 				else{
