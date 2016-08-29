@@ -61,7 +61,7 @@ module.exports.findTask = function( req, res ){
 	else{
 		var query = { _id:req.params.task };
 		
-		Task.find( query, 'name description userAssigned projectParent priority columnIn', function( err, task ) {
+		Task.findOne( query, 'name description userAssigned projectParent priority columnIn', function( err, task ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
 			}
@@ -78,11 +78,47 @@ module.exports.findTask = function( req, res ){
 };
 
 module.exports.updateTask = function( req, res ){
+	
 	if ( !req.payload._id ){
 		res.status( 401 ).json({ message: "Unauthorised access." });
 	}
 	else{
-		res.status( 200 ).json({ message: "Task update successful." });
+		var query = { _id:req.params.task };
+		
+		Task.findOne( query, function( err, task ) {
+			if( err ){
+				res.status( 500 ).json({ message: "Server error." });
+			}
+			else{
+				if( task ) {
+					if( req.body.description )
+						task.description = req.body.description;
+					
+					if( req.body.user )
+						task.userAssigned = req.body.user;
+					
+					if( req.body.priority )
+						task.priority = req.body.priority;
+					
+					if( req.body.columnIn )
+						task.columnIn = req.body.columnIn;
+					
+					task.updated_at = Date.now();
+					
+					task.save( function( err ) {
+						if( err ){
+							res.status( 500 ).json({ message: "Server error." });
+						}
+						else{
+							res.status( 200 ).json({ message: "Update successful." });
+						}	
+					});
+				}
+				else{
+					res.status( 400 ).json({ message: "No matches found." });
+				}	
+			}
+		});
 	}
 };
 
