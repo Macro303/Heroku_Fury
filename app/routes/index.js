@@ -62,7 +62,10 @@ router.delete( '/projects/:project', auth, cntrlrProjects.deleteProject );
 router.post( '/projects/:project/tasks', auth, cntrlrTasks.createTask );
 
 // get all tasks attached to a project
-router.get( '/projects/:project/tasks', auth, cntrlrTasks.findAllTasks );
+router.get( '/projects/:project/tasks', auth, cntrlrTasks.findAllProjectTasks );
+
+// get all tasks attached to a user
+router.get( '/users/tasks', auth, cntrlrTasks.findAllUserTasks );
 
 // get a specific task
 router.get( '/projects/:project/tasks/:task', auth, cntrlrTasks.findTask );

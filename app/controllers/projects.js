@@ -71,9 +71,7 @@ module.exports.findProject = function( req, res ) {
 		res.status( 401 ).json({ message: "Unauthorised access." });
 	}
 	else{
-		var query = { name:req.params.project, usersOnProject:req.payload.username };
-		
-		Project.findOne( query, 'name description usersOnProject', function( err,project ) {
+		Project.findById( req.params.project, 'name description usersOnProject', function( err,project ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
 			}
@@ -97,9 +95,7 @@ module.exports.updateProject = function( req, res ) {
 		res.status( 401 ).json({ message: "Unauthorised access." });
 	}
 	else{
-		var query = { name:req.params.project, usersOnProject:req.payload.username };
-		
-		Project.findOne( query, function( err, project ) {
+		Project.findById( req.params.project, function( err, project ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
 			}
@@ -137,16 +133,17 @@ module.exports.deleteProject = function( req, res ) {
 		res.status( 401 ).json( { message: "Unauthorised access." } );
 	}
 	else{
-		var query = { name:req.params.project, usersOnProject:req.payload.username };
+		var query = req.params.project;
 		var user = req.payload.username;
-		Project.findOne( query, function( err,project ) {
+		
+		Project.findById( query, function( err, project ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
 			}
 			else{
 				if( project ){
 					if( project.usersOnProject.length > 1 ){
-						Project.findOneAndUpdate( query, { $pull:{ usersOnProject:user } }, function( err ){
+						Project.findByIdAndUpdate( query, { $pull:{ usersOnProject:user } }, function( err ){
 							if( err ){
 								res.status( 500 ).json({ message: "Server error." });
 							}
@@ -156,12 +153,12 @@ module.exports.deleteProject = function( req, res ) {
 						});
 					}
 					else{
-						Task.remove( { projectParent:req.params.project }, function( err ){
+						Task.remove( { projectParent:query }, function( err ){
 							if( err ){
 								res.status( 500 ).json({ message: "Server error." });
 							}
 							else{
-								Project.findOneAndRemove( query, function( err ){
+								Project.findByIdAndRemove( query, function( err ){
 								if( err ){
 									res.status( 500 ).json({ message: "Server error." });
 								}

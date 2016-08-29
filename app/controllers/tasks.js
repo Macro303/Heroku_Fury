@@ -31,12 +31,35 @@ module.exports.createTask = function( req, res ){
 	}
 };
 
-module.exports.findAllTasks = function( req, res ){
+module.exports.findAllProjectTasks = function( req, res ){
 	if ( !req.payload._id ){
 		res.status( 401 ).json({ message: "Unauthorised access." });
 	}
 	else{
 		var query = { projectParent:req.params.project };
+		
+		Task.find( query, 'name description userAssigned projectParent priority columnIn', function( err, tasks ) {
+			if( err ){
+				res.status( 500 ).json({ message: "Server error." });
+			}
+			else{
+				if( tasks ) {
+					res.status( 200 ).json( tasks );	
+				}
+				else{
+					res.status( 400 ).json({ message: "No matches found." });
+				}	
+			}
+		});
+	}
+};
+
+module.exports.findAllUserTasks = function( req, res ){
+	if ( !req.payload._id ){
+		res.status( 401 ).json({ message: "Unauthorised access." });
+	}
+	else{
+		var query = { userAssigned:req.payload._id };
 		
 		Task.find( query, 'name description userAssigned projectParent priority columnIn', function( err, tasks ) {
 			if( err ){
