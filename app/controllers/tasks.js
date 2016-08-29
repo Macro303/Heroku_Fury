@@ -123,12 +123,17 @@ module.exports.deleteTask = function( req, res ){
 		res.status( 401 ).json({ message: "Unauthorised access." });
 	}
 	else{
-		Task.findByIdAndRemove( req.params.task, function( err ) {
+		Task.findByIdAndRemove( req.params.task, function( err, task ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
 			}
 			else{
-				res.status( 200 ).json({ message: "Delete successful." });
+				if( task ) {
+					res.status( 200 ).json({ message: "Delete successful." });
+				}
+				else{
+					res.status( 400 ).json({ message: "Task not found." });
+				}
 			}
 		});
 	}
