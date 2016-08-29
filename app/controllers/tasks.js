@@ -132,7 +132,7 @@ module.exports.deleteTask = function( req, res ){
 					res.status( 200 ).json({ message: "Delete successful." });
 				}
 				else{
-					res.status( 400 ).json({ message: "Task not found." });
+					res.status( 400 ).json({ message: "No matches found." });
 				}
 			}
 		});

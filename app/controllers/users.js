@@ -11,7 +11,12 @@ module.exports.findAllUsers = function( req, res ) {
 			res.status( 500 ).json({ message: "Server error." });
 		}
 		else{
-			res.status( 200 ).json( users );
+			if( users ){
+				res.status( 200 ).json( users );
+			}
+			else{
+				res.status( 400 ).json({ message: "No matches found." });
+			}	
 		}
 	});
 };
@@ -27,7 +32,12 @@ module.exports.findUser = function( req, res ) {
 				res.status( 500 ).json({ message: "Server error." });
 			}
 			else{
-				res.status( 200 ).json( user );
+				if( user ){
+					res.status( 200 ).json( user );
+				}
+				else{
+					res.status( 400 ).json({ message: "No matches found." });
+				}	
 			}
 		});
 	}
@@ -47,21 +57,26 @@ module.exports.updateUser = function( req, res ) {
 				res.status( 500 ).json({ message: "Server error." });
 			}
 			else{
-				if( newEmail )
-					user.email = newEmail;
-				if( newPassword )
-					user.setPassword( newPassword );
+				if( user ){
+					if( newEmail )
+						user.email = newEmail;
+					if( newPassword )
+						user.setPassword( newPassword );
 				
-				user.updated_at = Date.now();
+					user.updated_at = Date.now();
 				
-				user.save( function( err ) {
-					if( err ){
-						res.status( 500 ).json({ message: "Server error." });
-					}
-					else{
-						res.status( 200 ).json({ message: "Update successful." });
-					}	
-				});
+					user.save( function( err ) {
+						if( err ){
+							res.status( 500 ).json({ message: "Server error." });
+						}
+						else{
+							res.status( 200 ).json({ message: "Update successful." });
+						}	
+					});
+				}
+				else{
+					res.status( 400 ).json({ message: "No matches found." });
+				}	
 			}
 		});
 	}
@@ -73,12 +88,17 @@ module.exports.deleteUser = function( req, res ) {
 		res.status( 401 ).json({ message: "Unauthorised access." });
 	}
 	else{
-		User.findByIdAndRemove( req.payload._id , function( err ) {
+		User.findByIdAndRemove( req.payload._id , function( err, user ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
 			}
 			else{
-				res.status( 200 ).json({ message: "Delete successful." });
+				if( user ) {
+					res.status( 200 ).json({ message: "Delete successful." });
+				}
+				else{
+					res.status( 400 ).json({ message: "No matches found." });
+				}
 			}
 		});
 	}

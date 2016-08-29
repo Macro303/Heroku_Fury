@@ -166,7 +166,7 @@ module.exports.deleteProject = function( req, res ) {
 					}
 				}
 				else{
-					res.status( 400 ).json({ message: "Project does not exist." });
+					res.status( 400 ).json({ message: "No matches found." });
 				}
 			}
 		});
