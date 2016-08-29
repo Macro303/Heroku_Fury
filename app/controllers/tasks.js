@@ -59,7 +59,7 @@ module.exports.findAllUserTasks = function( req, res ){
 		res.status( 401 ).json({ message: "Unauthorised access." });
 	}
 	else{
-		var query = { userAssigned:req.payload._id };
+		var query = { userAssigned:req.payload.username };
 		
 		Task.find( query, 'name description userAssigned projectParent priority columnIn', function( err, tasks ) {
 			if( err ){
@@ -110,6 +110,9 @@ module.exports.updateTask = function( req, res ){
 			}
 			else{
 				if( task ) {
+					if( req.body.name )
+						task.name = req.body.name;
+				
 					if( req.body.description )
 						task.description = req.body.description;
 					
