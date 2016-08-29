@@ -5,7 +5,7 @@ var mongoose = require( 'mongoose' );
 
 var taskSchema = new mongoose.Schema({
 	name: { type: String, required:true },
-	description: { type:String },
+	description: { type:String, default:"" },
 	userAssigned: { type:String },
 	projectParent: { type:String, required:true },
 	priority: { type:String },

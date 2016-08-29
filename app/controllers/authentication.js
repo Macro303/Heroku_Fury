@@ -12,10 +12,6 @@ module.exports.register = function( req, res ) {
 		res.status( 400 ).json({ message: "All fields required." });
 	}
 	else{
-		//var userUsername = req.body.username;
-		//var userAdminFlag = req.body.admin;
-		//var userEmail = req.body.email;
-	
 		var user = new User({
 			username: req.body.username,
 			email: req.body.email,

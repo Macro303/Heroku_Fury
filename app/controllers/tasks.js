@@ -13,10 +13,6 @@ module.exports.createTask = function( req, res ){
 			res.status( 400 ).json({ message: "All fields required." });
 		}
 		else{
-			//var taskName = req.body.name;
-			//var taskDescription = req.body.description;
-			//var projectName = req.body.project;
-			
 			var task = new Task({
 				name: req.body.name,
 				description: req.body.description,

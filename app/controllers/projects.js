@@ -15,17 +15,13 @@ module.exports.createProject = function( req, res ) {
 			res.status( 400 ).json({ message: "All fields required." });
 		}
 		else{
-			var projectName = req.body.name;
-			var projectDescription = req.body.description;
-			var user = req.payload.username;
-			
 			var project = new Project({
-				name: projectName,
-				description: projectDescription,
-				created_by: user
+				name: req.body.name,
+				description: req.body.description,
+				created_by: req.payload.username
 			});
 			
-			project.usersOnProject.push( user );
+			project.usersOnProject.push( req.payload.username );
 			
 			project.save( function( err ) {
 				if( err ){
@@ -42,7 +38,6 @@ module.exports.createProject = function( req, res ) {
 			});
 		}
 	}
-	
 };
 
 module.exports.findAllProjects = function( req, res ) {
