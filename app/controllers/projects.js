@@ -15,13 +15,13 @@ module.exports.createProject = function( req, res ) {
 			res.status( 400 ).json({ message: "All fields required." });
 		}
 		else{
-			var newName = req.body.name;
-			var newDescription = req.body.description;
+			var projectName = req.body.name;
+			var projectDescription = req.body.description;
 			var user = req.payload.username;
 			
 			var project = new Project({
-				name: newName,
-				description: newDescription,
+				name: projectName,
+				description: projectDescription,
 				created_by: user
 			});
 			

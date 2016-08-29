@@ -12,14 +12,14 @@ module.exports.register = function( req, res ) {
 		res.status( 400 ).json({ message: "All fields required." });
 	}
 	else{
-		var newUsername = req.body.username;
-		var newAdminFlag = req.body.admin;
-		var newEmail = req.body.email;
+		//var userUsername = req.body.username;
+		//var userAdminFlag = req.body.admin;
+		//var userEmail = req.body.email;
 	
 		var user = new User({
-			username: newUsername,
-			email: newEmail,
-			admin: newAdminFlag
+			username: req.body.username,
+			email: req.body.email,
+			admin: req.body.admin
 		});
 	
 		user.setPassword( req.body.password );
