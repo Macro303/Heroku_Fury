@@ -74,6 +74,7 @@ module.exports.findProject = function( req, res ) {
 		Project.findById( req.params.project, 'name description usersOnProject', function( err,project ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
+				console.log( err );
 			}
 			else{
 				if( project ) {
