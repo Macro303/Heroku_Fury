@@ -59,9 +59,7 @@ module.exports.findTask = function( req, res ){
 		res.status( 401 ).json({ message: "Unauthorised access." });
 	}
 	else{
-		var query = { _id:req.params.task };
-		
-		Task.findOne( query, 'name description userAssigned projectParent priority columnIn', function( err, task ) {
+		Task.findById( req.params.task, 'name description userAssigned projectParent priority columnIn', function( err, task ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
 			}
@@ -82,10 +80,8 @@ module.exports.updateTask = function( req, res ){
 	if ( !req.payload._id ){
 		res.status( 401 ).json({ message: "Unauthorised access." });
 	}
-	else{
-		var query = { _id:req.params.task };
-		
-		Task.findOne( query, function( err, task ) {
+	else{	
+		Task.findById( req.params.task, function( err, task ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
 			}
@@ -127,6 +123,13 @@ module.exports.deleteTask = function( req, res ){
 		res.status( 401 ).json({ message: "Unauthorised access." });
 	}
 	else{
-		res.status( 200 ).json({ message: "Task delete successful." });
+		Task.findByIdAndRemove( req.params.task, function( err ) {
+			if( err ){
+				res.status( 500 ).json({ message: "Server error." });
+			}
+			else{
+				res.status( 200 ).json({ message: "Delete successful." });
+			}
+		});
 	}
 };
