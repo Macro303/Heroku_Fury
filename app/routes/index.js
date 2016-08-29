@@ -59,19 +59,19 @@ router.delete( '/projects/:project', auth, cntrlrProjects.deleteProject );
 // ======= Tasks Route API (/projects) =======
 
 // create a project
-router.post( '/tasks', auth, cntrlrProjects.createTask );
+router.post( '/tasks', auth, cntrlrTasks.createTask );
 
 // get all projects user attached to
-router.get( '/tasks', auth, cntrlrProjects.findAllTasks );
+router.get( '/tasks', auth, cntrlrTasks.findAllTasks );
 
 // get a specific project
-router.get( '/tasks/:task', auth, cntrlrProjects.findTask );
+router.get( '/tasks/:task', auth, cntrlrTasks.findTask );
 
 // update a project
-router.put( '/tasks/:task', auth, cntrlrProjects.updateTask );
+router.put( '/tasks/:task', auth, cntrlrTasks.updateTask );
 
 // delete a project
-router.delete( '/tasks/:task', auth, cntrlrProjects.deleteTask );
+router.delete( '/tasks/:task', auth, cntrlrTasks.deleteTask );
 
 // ======= Router export =======
 module.exports = router;

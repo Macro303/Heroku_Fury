@@ -36,17 +36,37 @@ module.exports.createTask = function( req, res ){
 };
 
 module.exports.findAllTasks = function( req, res ){
-	
+	if ( !req.payload._id ){
+		res.status( 401 ).json({ message: "Unauthorised access." });
+	}
+	else{
+		res.status( 200 ).json({ message: "Tasks find successful." });
+	}
 };
 
 module.exports.findTask = function( req, res ){
-	
+	if ( !req.payload._id ){
+		res.status( 401 ).json({ message: "Unauthorised access." });
+	}
+	else{
+		res.status( 200 ).json({ message: "Single Task find successful." });
+	}
 };
 
 module.exports.updateTask = function( req, res ){
-	
+	if ( !req.payload._id ){
+		res.status( 401 ).json({ message: "Unauthorised access." });
+	}
+	else{
+		res.status( 200 ).json({ message: "Task update successful." });
+	}
 };
 
 module.exports.deleteTask = function( req, res ){
-	
+	if ( !req.payload._id ){
+		res.status( 401 ).json({ message: "Unauthorised access." });
+	}
+	else{
+		res.status( 200 ).json({ message: "Task delete successful." });
+	}
 };
