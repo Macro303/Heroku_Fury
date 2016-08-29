@@ -66,7 +66,7 @@ module.exports.findTask = function( req, res ){
 				res.status( 500 ).json({ message: "Server error." });
 			}
 			else{
-				if( tasks ) {
+				if( task ) {
 					res.status( 200 ).json( task );	
 				}
 				else{
