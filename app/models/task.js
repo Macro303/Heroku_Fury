@@ -6,9 +6,9 @@ var mongoose = require( 'mongoose' );
 var taskSchema = new mongoose.Schema({
 	name: { type: String, required:true },
 	description: { type:String, default:"" },
-	userAssigned: { type:String },
+	userAssigned: { type:String, default:"" },
 	projectParent: { type:String, required:true },
-	priority: { type:String },
+	priority: { type:String, default:"" },
 	columnIn: { type:String, default:"new" },
 	created_at: { type:Date, default:Date.now },
 	updated_at: { type:Date, default:Date.now }

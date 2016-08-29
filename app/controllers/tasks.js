@@ -36,7 +36,21 @@ module.exports.findAllTasks = function( req, res ){
 		res.status( 401 ).json({ message: "Unauthorised access." });
 	}
 	else{
-		res.status( 200 ).json({ message: "Tasks find successful." });
+		var query = { projectParent:req.body.project };
+		
+		Task.find( query, 'name description userAssigned projectParent priority columnIn', function( err, tasks ) {
+			if( err ){
+				res.status( 500 ).json({ message: "Server error." });
+			}
+			else{
+				if( tasks ) {
+					res.status( 200 ).json( tasks );	
+				}
+				else{
+					res.status( 400 ).json({ message: "No matches found." });
+				}	
+			}
+		});
 	}
 };
 
