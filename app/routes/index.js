@@ -56,22 +56,22 @@ router.put( '/projects/:project', auth, cntrlrProjects.updateProject );
 // delete a project
 router.delete( '/projects/:project', auth, cntrlrProjects.deleteProject );
 
-// ======= Tasks Route API (/projects) =======
+// ======= Tasks Route API (/projects/:project/tasks) =======
 
-// create a project
-router.post( '/tasks', auth, cntrlrTasks.createTask );
+// create a task
+router.post( '/projects/:project/tasks', auth, cntrlrTasks.createTask );
 
-// get all projects user attached to
-router.get( '/tasks', auth, cntrlrTasks.findAllTasks );
+// get all tasks attached to a project
+router.get( '/projects/:project/tasks', auth, cntrlrTasks.findAllTasks );
 
-// get a specific project
-router.get( '/tasks/:task', auth, cntrlrTasks.findTask );
+// get a specific task
+router.get( '/projects/:project/tasks/:task', auth, cntrlrTasks.findTask );
 
-// update a project
-router.put( '/tasks/:task', auth, cntrlrTasks.updateTask );
+// update a task
+router.put( '/projects/:project/tasks/:task', auth, cntrlrTasks.updateTask );
 
-// delete a project
-router.delete( '/tasks/:task', auth, cntrlrTasks.deleteTask );
+// delete a task
+router.delete( '/projects/:project/tasks/:task', auth, cntrlrTasks.deleteTask );
 
 // ======= Router export =======
 module.exports = router;

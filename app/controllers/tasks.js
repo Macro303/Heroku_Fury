@@ -9,14 +9,14 @@ module.exports.createTask = function( req, res ){
 		res.status( 401 ).json({ message: "Unauthorised access." });
 	}
 	else{
-		if ( !req.body.name || !req.body.project ){
+		if ( !req.body.name || !req.params.project ){
 			res.status( 400 ).json({ message: "All fields required." });
 		}
 		else{
 			var task = new Task({
 				name: req.body.name,
 				description: req.body.description,
-				projectParent: req.body.project
+				projectParent: req.params.project
 			});
 			
 			task.save( function( err ){
@@ -36,7 +36,7 @@ module.exports.findAllTasks = function( req, res ){
 		res.status( 401 ).json({ message: "Unauthorised access." });
 	}
 	else{
-		var query = { projectParent:req.body.project };
+		var query = { projectParent:req.params.project };
 		
 		Task.find( query, 'name description userAssigned projectParent priority columnIn', function( err, tasks ) {
 			if( err ){
