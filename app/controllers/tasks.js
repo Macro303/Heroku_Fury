@@ -59,7 +59,21 @@ module.exports.findTask = function( req, res ){
 		res.status( 401 ).json({ message: "Unauthorised access." });
 	}
 	else{
-		res.status( 200 ).json({ message: "Single Task find successful." });
+		var query = { _id:req.params.task };
+		
+		Task.find( query, 'name description userAssigned projectParent priority columnIn', function( err, task ) {
+			if( err ){
+				res.status( 500 ).json({ message: "Server error." });
+			}
+			else{
+				if( tasks ) {
+					res.status( 200 ).json( task );	
+				}
+				else{
+					res.status( 400 ).json({ message: "No matches found." });
+				}	
+			}
+		});
 	}
 };
 
