@@ -5,21 +5,16 @@ var mongoose = require( 'mongoose' );
 var passport = require( 'passport' );
 var User = require( '../models/user.js' );
 
-// user registration / create a user
 module.exports.register = function( req, res ) {
 
 	if ( !req.body.username || !req.body.email || !req.body.password ){
 		res.status( 400 ).json({ message: "All fields required." });
 	}
 	else{
-		var newUsername = req.body.username;
-		var newAdminFlag = req.body.admin;
-		var newEmail = req.body.email;
-	
 		var user = new User({
-			username: newUsername,
-			email: newEmail,
-			admin: newAdminFlag
+			username: req.body.username,
+			email: req.body.email,
+			admin: req.body.admin
 		});
 	
 		user.setPassword( req.body.password );
@@ -40,7 +35,7 @@ module.exports.register = function( req, res ) {
 	}
 	
 };
-// user login
+
 module.exports.login = function( req, res ) {
 	 
 	if ( !req.body.username || !req.body.password ){

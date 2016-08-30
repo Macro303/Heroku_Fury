@@ -16,6 +16,7 @@ var auth = jwt({
 var cntrlrAuth = require( '../controllers/authentication.js' );
 var cntrlrUsers = require( '../controllers/users.js' );
 var cntrlrProjects = require( '../controllers/projects.js' );
+var cntrlrTasks = require( '../controllers/tasks.js' );
 
 
 // ======= User Route API (/users) =======
@@ -54,6 +55,26 @@ router.put( '/projects/:project', auth, cntrlrProjects.updateProject );
 
 // delete a project
 router.delete( '/projects/:project', auth, cntrlrProjects.deleteProject );
+
+// ======= Tasks Route API (/projects/:project/tasks) =======
+
+// create a task
+router.post( '/projects/:project/tasks', auth, cntrlrTasks.createTask );
+
+// get all tasks attached to a project
+router.get( '/projects/:project/tasks', auth, cntrlrTasks.findAllProjectTasks );
+
+// get all tasks attached to a user
+router.get( '/users/tasks', auth, cntrlrTasks.findAllUserTasks );
+
+// get a specific task
+router.get( '/projects/:project/tasks/:task', auth, cntrlrTasks.findTask );
+
+// update a task
+router.put( '/projects/:project/tasks/:task', auth, cntrlrTasks.updateTask );
+
+// delete a task
+router.delete( '/projects/:project/tasks/:task', auth, cntrlrTasks.deleteTask );
 
 // ======= Router export =======
 module.exports = router;

@@ -4,12 +4,12 @@
 var mongoose = require( 'mongoose' );
 
 var taskSchema = new mongoose.Schema({
-	name: { type: String, required:true, unique:true },
-	description: { type:String },
-	userAssigned: { type:String },
+	name: { type: String, required:true },
+	description: { type:String, default:"" },
+	userAssigned: { type:String, default:"" },
 	projectParent: { type:String, required:true },
-	priority: { type:String },
-	status: { type:String },
+	priority: { type:String, default:"UNASSIGNED" },
+	columnIn: { type:String, default:"new" },
 	created_at: { type:Date, default:Date.now },
 	updated_at: { type:Date, default:Date.now }
 });

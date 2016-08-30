@@ -4,6 +4,7 @@
 var mongoose = require( 'mongoose' );
 var Project = require( '../models/project.js' );
 var User = require( '../models/user.js' );
+var Task = require( '../models/task.js' );
 
 module.exports.createProject = function( req, res ) {
 	
@@ -15,17 +16,13 @@ module.exports.createProject = function( req, res ) {
 			res.status( 400 ).json({ message: "All fields required." });
 		}
 		else{
-			var newName = req.body.name;
-			var newDescription = req.body.description;
-			var user = req.payload.username;
-			
 			var project = new Project({
-				name: newName,
-				description: newDescription,
-				created_by: user
+				name: req.body.name,
+				description: req.body.description,
+				created_by: req.payload.username
 			});
 			
-			project.usersOnProject.push( user );
+			project.usersOnProject.push( req.payload.username );
 			
 			project.save( function( err ) {
 				if( err ){
@@ -42,7 +39,6 @@ module.exports.createProject = function( req, res ) {
 			});
 		}
 	}
-	
 };
 
 module.exports.findAllProjects = function( req, res ) {
@@ -51,9 +47,9 @@ module.exports.findAllProjects = function( req, res ) {
 		res.status( 401 ).json({ message: "Unauthorised access." });
 	}
 	else{
-		var query = { usersOnProject:req.payload.username }
+		var query = { usersOnProject:req.payload.username };
 	
-		Project.find( query, 'name description usersOnProject', function( err,projects ) {
+		Project.find( query, 'name description usersOnProject', function( err, projects ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
 			}
@@ -75,9 +71,7 @@ module.exports.findProject = function( req, res ) {
 		res.status( 401 ).json({ message: "Unauthorised access." });
 	}
 	else{
-		var query = { name:req.params.project, usersOnProject:req.payload.username };
-		
-		Project.findOne( query, 'name description usersOnProject', function( err,project ) {
+		Project.findById( req.params.project, 'name description usersOnProject', function( err,project ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
 			}
@@ -101,9 +95,7 @@ module.exports.updateProject = function( req, res ) {
 		res.status( 401 ).json({ message: "Unauthorised access." });
 	}
 	else{
-		var query = { name:req.params.project, usersOnProject:req.payload.username };
-		
-		Project.findOne( query, function( err, project ) {
+		Project.findById( req.params.project, function( err, project ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
 			}
@@ -141,16 +133,17 @@ module.exports.deleteProject = function( req, res ) {
 		res.status( 401 ).json( { message: "Unauthorised access." } );
 	}
 	else{
-		var query = { name:req.params.project, usersOnProject:req.payload.username };
+		var query = req.params.project;
 		var user = req.payload.username;
-		Project.findOne( query, function( err,project ) {
+		
+		Project.findById( query, function( err, project ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
 			}
 			else{
 				if( project ){
 					if( project.usersOnProject.length > 1 ){
-						Project.findOneAndUpdate( query, { $pull:{ usersOnProject:user } }, function( err ){
+						Project.findByIdAndUpdate( query, { $pull:{ usersOnProject:user } }, function( err ){
 							if( err ){
 								res.status( 500 ).json({ message: "Server error." });
 							}
@@ -160,18 +153,27 @@ module.exports.deleteProject = function( req, res ) {
 						});
 					}
 					else{
-						Project.findOneAndRemove( query, function( err ){
+						Task.remove( { projectParent:query }, function( err ){
 							if( err ){
 								res.status( 500 ).json({ message: "Server error." });
 							}
 							else{
-								res.status( 200 ).json({ message: "Delete successful." });
+								Project.findByIdAndRemove( query, function( err ){
+									if( err ){
+										res.status( 500 ).json({ message: "Server error." });
+									}
+									else{
+										res.status( 200 ).json({ message: "Delete successful." });
+									}
+								});
 							}
-						});
+						}); 
+						
+						
 					}
 				}
 				else{
-					res.status( 400 ).json({ message: "Project does not exist." });
+					res.status( 400 ).json({ message: "No matches found." });
 				}
 			}
 		});
