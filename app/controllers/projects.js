@@ -73,7 +73,7 @@ module.exports.findProject = function( req, res ) {
 	else{
 		Project.findOne( _id:req.params.project , 'name description usersOnProject', function( err,project ) {
 			if( err ){
-				res.status( 500 ).json({ message: "Server error.", error:err.message });
+				res.status( 500 ).json({ message: "Server error.", error:err.message, code:err.code });
 			}
 			else{
 				if( project ) {
