@@ -73,7 +73,7 @@ module.exports.findProject = function( req, res ) {
 	else{
 		Project.findById( req.params.project, 'name description usersOnProject', function( err,project ) {
 			if( err ){
-				res.status( 500 ).json({ message: "Server error.", code:err.code });
+				res.status( 500 ).json({ message: "Server error.", error:err.message });
 			}
 			else{
 				if( project ) {
@@ -159,12 +159,12 @@ module.exports.deleteProject = function( req, res ) {
 							}
 							else{
 								Project.findByIdAndRemove( query, function( err ){
-								if( err ){
-									res.status( 500 ).json({ message: "Server error." });
-								}
-								else{
-									res.status( 200 ).json({ message: "Delete successful." });
-								}
+									if( err ){
+										res.status( 500 ).json({ message: "Server error." });
+									}
+									else{
+										res.status( 200 ).json({ message: "Delete successful." });
+									}
 								});
 							}
 						}); 
