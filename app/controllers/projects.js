@@ -71,7 +71,7 @@ module.exports.findProject = function( req, res ) {
 		res.status( 401 ).json({ message: "Unauthorised access." });
 	}
 	else{
-		Project.findOne( _id:req.params.project , 'name description usersOnProject', function( err,project ) {
+		Project.findOne( { _id:req.params.project }, 'name description usersOnProject', function( err,project ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error.", error:err.message, code:err.code });
 			}
