@@ -5,6 +5,7 @@ var mongoose = require( 'mongoose' );
 var Project = require( '../models/project.js' );
 var User = require( '../models/user.js' );
 var Task = require( '../models/task.js' );
+var ObjectId = mongoose.Types.ObjectId();
 
 module.exports.createProject = function( req, res ) {
 	
@@ -71,7 +72,8 @@ module.exports.findProject = function( req, res ) {
 		res.status( 401 ).json({ message: "Unauthorised access." });
 	}
 	else{
-		Project.findById( mongoose.Types.ObjectId( req.params.project ), 'name description usersOnProject', function( err,project ) {
+		var query = new ObjectId( req.params.project );
+		Project.findById( query, 'name description usersOnProject', function( err,project ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error.", error:err.message });
 			}
