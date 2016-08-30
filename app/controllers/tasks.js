@@ -89,7 +89,7 @@ module.exports.findTask = function( req, res ){
 			}
 			else{
 				if( task ) {
-					res.status( 200 ).json( task );	
+					res.status( 200 ).json( [ task ] );	
 				}
 				else{
 					res.status( 400 ).json({ message: "No matches found." });
