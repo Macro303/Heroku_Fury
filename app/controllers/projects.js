@@ -88,6 +88,7 @@ module.exports.findProject = function( req, res ) {
 };
 
 module.exports.updateProject = function( req, res ) {
+	var newProjectName = req.body.name;
 	var newDescription = req.body.description;
 	var newUser = req.body.username;
 	
@@ -103,6 +104,9 @@ module.exports.updateProject = function( req, res ) {
 				if( project ) {
 					if( newDescription ) 
 						project.description = newDescription;
+					
+					if( newProjectName ) 
+						project.name = newProjectName;
 				
 					if( newUser ){
 						project.usersOnProject.push( newUser );
@@ -112,7 +116,12 @@ module.exports.updateProject = function( req, res ) {
 				
 					project.save( function( err ) {
 						if( err ){
-							res.status( 500 ).json({ message: "Server error." });
+							if( err.code === 11000 || err.code === 11001 ){
+								res.status( 400 ).json({ message: "Project already exists." });
+							}
+							else{
+								res.status( 500 ).json({ message: "Server error." });
+							}
 						}
 						else{
 							res.status( 200 ).json({ message: "Update successful." });
