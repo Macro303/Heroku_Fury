@@ -18,7 +18,10 @@ module.exports.createTask = function( req, res ){
 				description: req.body.description,
 				userAssigned: req.body.user,
 				projectParent: req.params.project
+				//columnIn:column
 			});
+			
+			// Save to default column new
 			
 			task.save( function( err ){
 				if( err ){

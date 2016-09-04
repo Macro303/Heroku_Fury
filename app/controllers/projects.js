@@ -23,7 +23,7 @@ module.exports.createProject = function( req, res ) {
 			});
 			
 			project.usersOnProject.push( req.payload.username );
-			
+			// Create default columns
 			project.save( function( err ) {
 				if( err ){
 					if( err.code === 11000 || err.code === 11001 ){
