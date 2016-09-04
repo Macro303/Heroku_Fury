@@ -78,6 +78,29 @@ module.exports.findAllUserTasks = function( req, res ){
 	}
 };
 
+module.exports.findAllColumnTasks = function( req, res ){
+	if ( !req.payload._id ){
+		res.status( 401 ).json({ message: "Unauthorised access." });
+	}
+	else{
+		var query = { columnIn:req.body.column };
+		
+		Task.find( query, 'name description userAssigned projectParent priority columnIn', function( err, tasks ) {
+			if( err ){
+				res.status( 500 ).json({ message: "Server error." });
+			}
+			else{
+				if( tasks ) {
+					res.status( 200 ).json( tasks );	
+				}
+				else{
+					res.status( 400 ).json({ message: "No matches found." });
+				}	
+			}
+		});
+	}
+};
+
 module.exports.findTask = function( req, res ){
 	if ( !req.payload._id ){
 		res.status( 401 ).json({ message: "Unauthorised access." });
