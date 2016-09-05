@@ -116,23 +116,27 @@ module.exports.deleteColumn = function( req, res ){
 		Column.findOne( { _id:req.params.column, name:{ $ne:'New' } }, function( err, column ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
+				console.log( err );
 			}
 			else{
 				if( column ){
 					Column.findOne( { name:'New', projectParent:req.params.column }, function( err, newColumn ){
 						if( err ){
 							res.status( 500 ).json({ message: "Server error." });
+							console.log( err );
 						}
 						else{
 							if ( newColumn ){
 								Task.update( { columnIn:req.params.column }, { columnIn:newColumn._id }, { multi:true }, function( err ) {
 									if( err ){
 										res.status( 500 ).json({ message: "Server error." });
+										console.log( err );
 									}
 									else{
 										Column.findByIdAndRemove( req.params.column, function( err ) {
 											if( err ){
 												res.status( 500 ).json({ message: "Server error." });
+												console.log( err );
 											}
 											else{
 												res.status( 200 ).json({ message: "Delete successful." });
@@ -144,6 +148,7 @@ module.exports.deleteColumn = function( req, res ){
 							}
 							else{
 								res.status( 500 ).json({ message: "Server error." });
+								console.log( err );
 							}
 						}
 					});	
