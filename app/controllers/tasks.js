@@ -104,7 +104,7 @@ module.exports.findAllColumnTasks = function( req, res ){
 		res.status( 401 ).json({ message: "Unauthorised access." });
 	}
 	else{
-		var query = { columnIn:req.body.column };
+		var query = { columnIn:req.params.column };
 		
 		Task.find( query, 'name description userAssigned projectParent priority columnIn', function( err, tasks ) {
 			if( err ){
