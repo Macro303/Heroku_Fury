@@ -42,6 +42,7 @@ module.exports.createTask = function( req, res ){
 					else{
 						res.status( 500 ).json({ message: "Server error." });
 					}
+				}
 			});
 		}
 	}
