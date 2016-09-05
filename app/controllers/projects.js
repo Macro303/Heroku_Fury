@@ -33,6 +33,7 @@ module.exports.createProject = function( req, res ) {
 			column.save( function( err ) {
 				if( err ){
 					res.status( 500 ).json({ message: "Server error." });
+					console.log( err );
 				}
 				else{
 					project.save( function( err ) {
@@ -42,6 +43,7 @@ module.exports.createProject = function( req, res ) {
 							}
 							else{
 								res.status( 500 ).json({ message: "Server error." });
+								console.log( err );
 							}
 						}
 						else{
