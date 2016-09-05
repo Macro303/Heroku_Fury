@@ -22,6 +22,7 @@ module.exports.createColumn = function( req, res ){
 			column.save( function( err ){
 				if( err ){
 					res.status( 500 ).json({ message: "Server error." });
+					console.error( new Error( err.message ) );
 				}
 				else{
 					res.status( 201 ).json({ message: "Column creation successful." });
@@ -41,6 +42,7 @@ module.exports.findAllProjectColumns = function( req, res ){
 		Column.find( query, 'name projectParent', function( err, columns ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
+				console.error( new Error( err.message ) );
 			}
 			else{
 				if( columns ) {
@@ -62,6 +64,7 @@ module.exports.findColumn = function( req, res ){
 		Column.findById( req.params.column, 'name projectParent', function( err, column ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
+				console.error( new Error( err.message ) );
 			}
 			else{
 				if( column ) {
@@ -83,6 +86,7 @@ module.exports.updateColumn = function( req, res ){
 		Column.findById( req.params.column, function( err, column ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
+				console.error( new Error( err.message ) );
 			}
 			else{
 				if( column ) {
@@ -94,6 +98,7 @@ module.exports.updateColumn = function( req, res ){
 					column.save( function( err ) {
 						if( err ){
 							res.status( 500 ).json({ message: "Server error." });
+							console.error( new Error( err.message ) );
 						}
 						else{
 							res.status( 200 ).json({ message: "Update successful." });
@@ -116,27 +121,27 @@ module.exports.deleteColumn = function( req, res ){
 		Column.findOne( { _id:req.params.column, name:{ $ne:'New' } }, function( err, column ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
-				console.log( err );
+				console.error( new Error( err.message ) );
 			}
 			else{
 				if( column ){
 					Column.findOne( { name:'New', projectParent:req.params.column }, function( err, newColumn ){
 						if( err ){
 							res.status( 500 ).json({ message: "Server error." });
-							console.log( err );
+							console.error( new Error( err.message ) );
 						}
 						else{
 							if ( newColumn ){
 								Task.update( { columnIn:req.params.column }, { columnIn:newColumn._id }, { multi:true }, function( err ) {
 									if( err ){
 										res.status( 500 ).json({ message: "Server error." });
-										console.log( err );
+										console.error( new Error( err.message ) );
 									}
 									else{
 										Column.findByIdAndRemove( req.params.column, function( err ) {
 											if( err ){
 												res.status( 500 ).json({ message: "Server error." });
-												console.log( err );
+												console.error( new Error( err.message ) );
 											}
 											else{
 												res.status( 200 ).json({ message: "Delete successful." });
@@ -148,7 +153,7 @@ module.exports.deleteColumn = function( req, res ){
 							}
 							else{
 								res.status( 500 ).json({ message: "Server error." });
-								console.log( err );
+								console.error( new Error( err.message ) );
 							}
 						}
 					});	

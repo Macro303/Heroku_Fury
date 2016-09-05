@@ -15,9 +15,10 @@ module.exports.createTask = function( req, res ){
 		}
 		else{
 			
-			Column.findOne( { _id:req.params.column, name:'New' }, function( err, column ){
+			Column.findOne( { projectParent:req.params.project, name:'New' }, function( err, column ){
 				if( err ){
 					res.status( 500 ).json({ message: "Server error." });
+					console.error( new Error( err.message ) );
 				}
 				else{
 					if( column ){
@@ -33,6 +34,7 @@ module.exports.createTask = function( req, res ){
 						task.save( function( err ){
 							if( err ){
 								res.status( 500 ).json({ message: "Server error." });
+								console.error( new Error( err.message ) );
 							}
 							else{
 								res.status( 201 ).json({ message: "Task creation successful." });
@@ -41,6 +43,7 @@ module.exports.createTask = function( req, res ){
 					}
 					else{
 						res.status( 500 ).json({ message: "Server error." });
+						console.error( new Error( err.message ) );
 					}
 				}
 			});
@@ -58,6 +61,7 @@ module.exports.findAllProjectTasks = function( req, res ){
 		Task.find( query, 'name description userAssigned projectParent priority columnIn', function( err, tasks ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
+				console.error( new Error( err.message ) );
 			}
 			else{
 				if( tasks ) {
@@ -81,6 +85,7 @@ module.exports.findAllUserTasks = function( req, res ){
 		Task.find( query, 'name description userAssigned projectParent priority columnIn', function( err, tasks ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
+				console.error( new Error( err.message ) );
 			}
 			else{
 				if( tasks ) {
@@ -104,6 +109,7 @@ module.exports.findAllColumnTasks = function( req, res ){
 		Task.find( query, 'name description userAssigned projectParent priority columnIn', function( err, tasks ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
+				console.error( new Error( err.message ) );
 			}
 			else{
 				if( tasks ) {
@@ -125,6 +131,7 @@ module.exports.findTask = function( req, res ){
 		Task.findById( req.params.task, 'name description userAssigned projectParent priority columnIn', function( err, task ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
+				console.error( new Error( err.message ) );
 			}
 			else{
 				if( task ) {
@@ -147,6 +154,7 @@ module.exports.updateTask = function( req, res ){
 		Task.findById( req.params.task, function( err, task ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
+				console.error( new Error( err.message ) );
 			}
 			else{
 				if( task ) {
@@ -170,6 +178,7 @@ module.exports.updateTask = function( req, res ){
 					task.save( function( err ) {
 						if( err ){
 							res.status( 500 ).json({ message: "Server error." });
+							console.error( new Error( err.message ) );
 						}
 						else{
 							res.status( 200 ).json({ message: "Update successful." });
@@ -192,6 +201,7 @@ module.exports.deleteTask = function( req, res ){
 		Task.findByIdAndRemove( req.params.task, function( err, task ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
+				console.error( new Error( err.message ) );
 			}
 			else{
 				if( task ) {

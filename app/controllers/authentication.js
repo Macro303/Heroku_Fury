@@ -26,6 +26,7 @@ module.exports.register = function( req, res ) {
 				}
 				else{
 					res.status( 500 ).json({ message: "Server error." });
+					console.error( new Error( err.message ) );
 				}
 			}
 			else{
@@ -47,6 +48,7 @@ module.exports.login = function( req, res ) {
 		
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
+				console.error( new Error( err.message ) );
 			}
 		
 			if( user ){
