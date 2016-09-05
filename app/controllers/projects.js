@@ -25,7 +25,6 @@ module.exports.createProject = function( req, res ) {
 			
 			project.usersOnProject.push( req.payload.username );
 			
-			// Create default columns
 			var column = new Column({
 				name:'New',
 				projectParent: req.params.project
@@ -178,21 +177,24 @@ module.exports.deleteProject = function( req, res ) {
 					else{
 						Task.remove( { projectParent:query }, function( err ){
 							if( err ){
+								console.log( err );
+							}
+						});
+						
+						Column.remove( { projectParent:query }, function( err ){
+							if( err ){
+								console.log( err );
+							}
+						});
+						
+						Project.findByIdAndRemove( query, function( err ){
+							if( err ){
 								res.status( 500 ).json({ message: "Server error." });
 							}
 							else{
-								Project.findByIdAndRemove( query, function( err ){
-									if( err ){
-										res.status( 500 ).json({ message: "Server error." });
-									}
-									else{
-										res.status( 200 ).json({ message: "Delete successful." });
-									}
-								});
+								res.status( 200 ).json({ message: "Delete successful." });
 							}
-						}); 
-						
-						
+						});
 					}
 				}
 				else{

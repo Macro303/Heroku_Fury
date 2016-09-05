@@ -13,23 +13,34 @@ module.exports.createTask = function( req, res ){
 			res.status( 400 ).json({ message: "All fields required." });
 		}
 		else{
-			var task = new Task({
-				name: req.body.name,
-				description: req.body.description,
-				userAssigned: req.body.user,
-				projectParent: req.params.project
-				//columnIn:column
-			});
 			
-			// Save to default column new
-			
-			task.save( function( err ){
+			Column.findOne( { _id:req.params.column, name:'New' }, function( err, column ){
 				if( err ){
 					res.status( 500 ).json({ message: "Server error." });
 				}
 				else{
-					res.status( 201 ).json({ message: "Task creation successful." });
-				}
+					if( column ){
+						var task = new Task({
+							name: req.body.name,
+							description: req.body.description,
+							userAssigned: req.body.user,
+							projectParent: req.params.project,
+							columnIn: column._id
+						});
+			
+			
+						task.save( function( err ){
+							if( err ){
+								res.status( 500 ).json({ message: "Server error." });
+							}
+							else{
+								res.status( 201 ).json({ message: "Task creation successful." });
+							}
+						});
+					}
+					else{
+						res.status( 500 ).json({ message: "Server error." });
+					}
 			});
 		}
 	}
