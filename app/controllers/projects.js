@@ -5,6 +5,7 @@ var mongoose = require( 'mongoose' );
 var Project = require( '../models/project.js' );
 var User = require( '../models/user.js' );
 var Task = require( '../models/task.js' );
+var Column = require( '../models/column.js' );
 
 module.exports.createProject = function( req, res ) {
 	
@@ -23,18 +24,31 @@ module.exports.createProject = function( req, res ) {
 			});
 			
 			project.usersOnProject.push( req.payload.username );
+			
 			// Create default columns
-			project.save( function( err ) {
+			var column = new Column({
+				name:'New',
+				projectParent: req.params.project
+			});
+			
+			column.save( function( err ) {
 				if( err ){
-					if( err.code === 11000 || err.code === 11001 ){
-						res.status( 400 ).json({ message: "Project already exists." });
-					}
-					else{
-						res.status( 500 ).json({ message: "Server error." });
-					}
+					res.status( 500 ).json({ message: "Server error." });
 				}
 				else{
-					res.status( 201 ).json({ message: "Project creation successful." });
+					project.save( function( err ) {
+						if( err ){
+							if( err.code === 11000 || err.code === 11001 ){
+								res.status( 400 ).json({ message: "Project already exists." });
+							}
+							else{
+								res.status( 500 ).json({ message: "Server error." });
+							}
+						}
+						else{
+							res.status( 201 ).json({ message: "Project creation successful." });
+						}
+					});
 				}
 			});
 		}
