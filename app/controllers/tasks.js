@@ -3,6 +3,7 @@
 
 var mongoose = require( 'mongoose' );
 var Task = require( '../models/task.js' );
+var Column = require( '../models/column.js' );
 
 module.exports.createTask = function( req, res ){
 	if ( !req.payload._id ){
