@@ -25,26 +25,27 @@ module.exports.createProject = function( req, res ) {
 			
 			project.usersOnProject.push( req.payload.username );
 			
-			var column = new Column({
-				name:'New',
-				projectParent: req.params.project
-			});
 			
-			column.save( function( err ) {
+			project.save( function( err, project ) {
 				if( err ){
-					res.status( 500 ).json({ message: "Server error." });
-					console.log( err );
+					if( err.code === 11000 || err.code === 11001 ){
+						res.status( 400 ).json({ message: "Project already exists." });
+					}
+					else{
+						res.status( 500 ).json({ message: "Server error." });
+						console.log( { 'err msg':err.message } );
+					}
 				}
 				else{
-					project.save( function( err ) {
+					var column = new Column({
+					name:'New',
+					projectParent: project._id;
+					});
+			
+					column.save( function( err ) {
 						if( err ){
-							if( err.code === 11000 || err.code === 11001 ){
-								res.status( 400 ).json({ message: "Project already exists." });
-							}
-							else{
-								res.status( 500 ).json({ message: "Server error." });
-								console.log( err );
-							}
+							res.status( 500 ).json({ message: "Server error." });
+							console.log( { 'err msg':err.message } );
 						}
 						else{
 							res.status( 201 ).json({ message: "Project creation successful." });
@@ -67,6 +68,7 @@ module.exports.findAllProjects = function( req, res ) {
 		Project.find( query, 'name description usersOnProject', function( err, projects ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
+				console.log( { 'err msg':err.message } );
 			}
 			else{
 				if( projects ) {
@@ -89,6 +91,7 @@ module.exports.findProject = function( req, res ) {
 		Project.findById( req.params.project, 'name description usersOnProject', function( err,project ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
+				console.log( { 'err msg':err.message } );
 			}
 			else{
 				if( project ) {
@@ -114,6 +117,7 @@ module.exports.updateProject = function( req, res ) {
 		Project.findById( req.params.project, function( err, project ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
+				console.log( { 'err msg':err.message } );
 			}
 			else{
 				if( project ) {
@@ -136,6 +140,7 @@ module.exports.updateProject = function( req, res ) {
 							}
 							else{
 								res.status( 500 ).json({ message: "Server error." });
+								console.log( { 'err msg':err.message } );
 							}
 						}
 						else{
@@ -163,6 +168,7 @@ module.exports.deleteProject = function( req, res ) {
 		Project.findById( query, function( err, project ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
+				console.log( { 'err msg':err.message } );
 			}
 			else{
 				if( project ){
@@ -179,19 +185,20 @@ module.exports.deleteProject = function( req, res ) {
 					else{
 						Task.remove( { projectParent:query }, function( err ){
 							if( err ){
-								console.log( err );
+								console.log( { 'err msg':err.message } );
 							}
 						});
 						
 						Column.remove( { projectParent:query }, function( err ){
 							if( err ){
-								console.log( err );
+								console.log( { 'err msg':err.message } );
 							}
 						});
 						
 						Project.findByIdAndRemove( query, function( err ){
 							if( err ){
 								res.status( 500 ).json({ message: "Server error." });
+								console.log( { 'err msg':err.message } );
 							}
 							else{
 								res.status( 200 ).json({ message: "Delete successful." });
