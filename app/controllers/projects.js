@@ -37,20 +37,55 @@ module.exports.createProject = function( req, res ) {
 					}
 				}
 				else{
-					var column = new Column({
+					var newColCreated = false;
+					var arcColCreated = false;
+					
+					var newCol = new Column({
 						name:'New',
-						projectParent: project._id
+						projectParent: project._id,
+						userDeletable:false
 					});
-			
-					column.save( function( err ) {
+					
+					var arcCol = new Column({
+						name:'Archived',
+						projectParent: project._id,
+						userDeletable:false
+					});
+					
+					newCol.save( function( err ) {
 						if( err ){
 							res.status( 500 ).json({ message: "Server error." });
 							console.error( new Error( err.message ) );
 						}
 						else{
-							res.status( 201 ).json({ message: "Project creation successful." });
+							newColCreated = true;
 						}
 					});
+					
+					arcCol.save( function( err ) {
+						if( err ){
+							res.status( 500 ).json({ message: "Server error." });
+							console.error( new Error( err.message ) );
+						}
+						else{
+							arcColCreated = true;
+						}
+					});
+					
+					if( newColCreated && arcColCreated ){
+						res.status( 201 ).json({ message: "Project creation successful." });
+					}
+					else{
+						project.remove( { _id:project._id }, function( err ){
+							if( err ){
+								console.error( new Error( err.message ) );
+							}
+						});
+						res.status( 500 ).json({ message: "Server error." });
+						console.error( new Error( err.message ) );
+					}
+					
+					
 				}
 			});
 		}
