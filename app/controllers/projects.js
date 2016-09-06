@@ -64,13 +64,14 @@ module.exports.createProject = function( req, res ) {
 					});
 					
 					if( res.status === 500 ){
-						project.remove( { _id:project._id }, function( err ){
+						
+						Column.remove( { projectParent:project._id }, function( err ){
 							if( err ){
 								console.error( new Error( err.message ) );
 							}
 						});
 						
-						Column.remove( { projectParent:project._id }, function( err ){
+						project.remove( { _id:project._id }, function( err ){
 							if( err ){
 								console.error( new Error( err.message ) );
 							}
