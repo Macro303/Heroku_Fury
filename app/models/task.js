@@ -9,7 +9,7 @@ var taskSchema = new mongoose.Schema({
 	userAssigned: { type:String, default:"" },
 	projectParent: { type:String, required:true },
 	priority: { type:String, default:"UNASSIGNED" },
-	columnIn: { type:String, required:true },
+	columnIn: { type:String },
 	created_at: { type:Date, default:Date.now },
 	updated_at: { type:Date, default:Date.now }
 });
