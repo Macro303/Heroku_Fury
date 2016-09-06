@@ -3,6 +3,7 @@
 
 var mongoose = require( 'mongoose' );
 var Task = require( '../models/task.js' );
+var Column = require( '../models/column.js' );
 
 module.exports.createTask = function( req, res ){
 	if ( !req.payload._id ){
@@ -13,19 +14,37 @@ module.exports.createTask = function( req, res ){
 			res.status( 400 ).json({ message: "All fields required." });
 		}
 		else{
-			var task = new Task({
-				name: req.body.name,
-				description: req.body.description,
-				userAssigned: req.body.user,
-				projectParent: req.params.project
-			});
 			
-			task.save( function( err ){
+			Column.findOne( { projectParent:req.params.project, name:'New' }, function( err, column ){
 				if( err ){
 					res.status( 500 ).json({ message: "Server error." });
+					console.error( new Error( err.message ) );
 				}
 				else{
-					res.status( 201 ).json({ message: "Task creation successful." });
+					if( column ){
+						var task = new Task({
+							name: req.body.name,
+							description: req.body.description,
+							userAssigned: req.body.user,
+							projectParent: req.params.project,
+							columnIn: column._id
+						});
+			
+			
+						task.save( function( err ){
+							if( err ){
+								res.status( 500 ).json({ message: "Server error." });
+								console.error( new Error( err.message ) );
+							}
+							else{
+								res.status( 201 ).json({ message: "Task creation successful." });
+							}
+						});
+					}
+					else{
+						res.status( 500 ).json({ message: "Server error." });
+						console.error( new Error( err.message ) );
+					}
 				}
 			});
 		}
@@ -42,6 +61,7 @@ module.exports.findAllProjectTasks = function( req, res ){
 		Task.find( query, 'name description userAssigned projectParent priority columnIn', function( err, tasks ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
+				console.error( new Error( err.message ) );
 			}
 			else{
 				if( tasks ) {
@@ -65,6 +85,31 @@ module.exports.findAllUserTasks = function( req, res ){
 		Task.find( query, 'name description userAssigned projectParent priority columnIn', function( err, tasks ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
+				console.error( new Error( err.message ) );
+			}
+			else{
+				if( tasks ) {
+					res.status( 200 ).json( tasks );	
+				}
+				else{
+					res.status( 400 ).json({ message: "No matches found." });
+				}	
+			}
+		});
+	}
+};
+
+module.exports.findAllColumnTasks = function( req, res ){
+	if ( !req.payload._id ){
+		res.status( 401 ).json({ message: "Unauthorised access." });
+	}
+	else{
+		var query = { columnIn:req.params.column };
+		
+		Task.find( query, 'name description userAssigned projectParent priority columnIn', function( err, tasks ) {
+			if( err ){
+				res.status( 500 ).json({ message: "Server error." });
+				console.error( new Error( err.message ) );
 			}
 			else{
 				if( tasks ) {
@@ -86,6 +131,7 @@ module.exports.findTask = function( req, res ){
 		Task.findById( req.params.task, 'name description userAssigned projectParent priority columnIn', function( err, task ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
+				console.error( new Error( err.message ) );
 			}
 			else{
 				if( task ) {
@@ -108,6 +154,7 @@ module.exports.updateTask = function( req, res ){
 		Task.findById( req.params.task, function( err, task ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
+				console.error( new Error( err.message ) );
 			}
 			else{
 				if( task ) {
@@ -131,6 +178,7 @@ module.exports.updateTask = function( req, res ){
 					task.save( function( err ) {
 						if( err ){
 							res.status( 500 ).json({ message: "Server error." });
+							console.error( new Error( err.message ) );
 						}
 						else{
 							res.status( 200 ).json({ message: "Update successful." });
@@ -153,6 +201,7 @@ module.exports.deleteTask = function( req, res ){
 		Task.findByIdAndRemove( req.params.task, function( err, task ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
+				console.error( new Error( err.message ) );
 			}
 			else{
 				if( task ) {

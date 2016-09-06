@@ -9,6 +9,7 @@ module.exports.findAllUsers = function( req, res ) {
 	User.find( {}, 'username', function( err, users ) {
 		if( err ){
 			res.status( 500 ).json({ message: "Server error." });
+			console.error( new Error( err.message ) );
 		}
 		else{
 			if( users ){
@@ -30,6 +31,7 @@ module.exports.findUser = function( req, res ) {
 		User.findById( req.payload._id , 'username email', function( err, user ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
+				console.error( new Error( err.message ) );
 			}
 			else{
 				if( user ){
@@ -55,6 +57,7 @@ module.exports.updateUser = function( req, res ) {
 		User.findById( req.payload._id, function( err,user ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
+				console.error( new Error( err.message ) );
 			}
 			else{
 				if( user ){
@@ -68,6 +71,7 @@ module.exports.updateUser = function( req, res ) {
 					user.save( function( err ) {
 						if( err ){
 							res.status( 500 ).json({ message: "Server error." });
+							console.error( new Error( err.message ) );
 						}
 						else{
 							res.status( 200 ).json({ message: "Update successful." });
@@ -91,6 +95,7 @@ module.exports.deleteUser = function( req, res ) {
 		User.findByIdAndRemove( req.payload._id , function( err, user ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
+				console.error( new Error( err.message ) );
 			}
 			else{
 				if( user ) {
