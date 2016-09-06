@@ -37,8 +37,8 @@ module.exports.createProject = function( req, res ) {
 					}
 				}
 				else{
-					var newColCreated = false;
-					var arcColCreated = false;
+					var newColCreated;
+					var arcColCreated;
 					
 					var newCol = new Column({
 						name:'New',
@@ -56,6 +56,7 @@ module.exports.createProject = function( req, res ) {
 						if( err ){
 							res.status( 500 ).json({ message: "Server error." });
 							console.error( new Error( err.message ) );
+							newColCreated = false;
 						}
 						else{
 							newColCreated = true;
@@ -66,6 +67,7 @@ module.exports.createProject = function( req, res ) {
 						if( err ){
 							res.status( 500 ).json({ message: "Server error." });
 							console.error( new Error( err.message ) );
+							arcColCreated = false;
 						}
 						else{
 							arcColCreated = true;
@@ -81,6 +83,13 @@ module.exports.createProject = function( req, res ) {
 								console.error( new Error( err.message ) );
 							}
 						});
+						
+						column.remove( { projectParent:project._id }, function( err ){
+							if( err ){
+								console.error( new Error( err.message ) );
+							}
+						});
+						
 						res.status( 500 ).json({ message: "Server error." });
 						console.log( 'newColCreated:' + newColCreated );
 						console.log( 'arcColCreated:' + arcColCreated );
