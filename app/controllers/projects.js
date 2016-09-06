@@ -82,7 +82,6 @@ module.exports.createProject = function( req, res ) {
 							}
 						});
 						res.status( 500 ).json({ message: "Server error." });
-						console.error( new Error( err.message ) );
 					}
 					
 					
