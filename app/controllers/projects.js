@@ -37,8 +37,8 @@ module.exports.createProject = function( req, res ) {
 					}
 				}
 				else{
-					var newColCreated;
-					var arcColCreated;
+					newColCreated = false;
+					arcColCreated = false;
 					
 					var newCol = new Column({
 						name:'New',
