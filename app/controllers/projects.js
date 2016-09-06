@@ -84,7 +84,7 @@ module.exports.createProject = function( req, res ) {
 							}
 						});
 						
-						column.remove( { projectParent:project._id }, function( err ){
+						Column.remove( { projectParent:project._id }, function( err ){
 							if( err ){
 								console.error( new Error( err.message ) );
 							}
