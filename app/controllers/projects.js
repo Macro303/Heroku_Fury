@@ -38,8 +38,8 @@ module.exports.createProject = function( req, res ) {
 				}
 				else{
 					var column = new Column({
-					name:'New',
-					projectParent: project._id
+						name:'New',
+						projectParent: project._id
 					});
 			
 					column.save( function( err ) {
