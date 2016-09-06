@@ -82,9 +82,9 @@ module.exports.createProject = function( req, res ) {
 							}
 						});
 						res.status( 500 ).json({ message: "Server error." });
+						console.log( 'newColCreated:' + newColCreated );
+						console.log( 'arcColCreated:' + arcColCreated );
 					}
-					
-					
 				}
 			});
 		}
