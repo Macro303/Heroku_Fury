@@ -118,7 +118,7 @@ module.exports.deleteColumn = function( req, res ){
 		res.status( 401 ).json({ message: "Unauthorised access." });
 	}
 	else{
-		Column.findOne( { _id:req.params.column, name:{ $ne:'New' } }, function( err, column ) {
+		Column.findOne( { _id:req.params.column, userDeletable:true }, function( err, column ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
 				console.error( new Error( err.message ) );
