@@ -9,7 +9,7 @@ var columnSchema = new mongoose.Schema({
 	created_at: { type:Date, default:Date.now },
 	updated_at: { type:Date, default:Date.now },
 	userDeletable: { type:Boolean, default:true },
-	position: { type:number, required:true }
+	position: { type:Number, required:true }
 });
 
 
