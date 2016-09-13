@@ -14,19 +14,22 @@ module.exports.createColumn = function( req, res ){
 			res.status( 400 ).json({ message: "All fields required." });
 		}
 		else{
-			var column = new Column({
-				name: req.body.name,
-				projectParent: req.params.project
-			});
+			Column.count( {}, function( err, count ){
+				var column = new Column({
+					name: req.body.name,
+					projectParent: req.params.project,
+					position: count
+				});
 			
-			column.save( function( err ){
-				if( err ){
-					res.status( 500 ).json({ message: "Server error." });
-					console.error( new Error( err.message ) );
-				}
-				else{
-					res.status( 201 ).json({ message: "Column creation successful." });
-				}
+				column.save( function( err ){
+					if( err ){
+						res.status( 500 ).json({ message: "Server error." });
+						console.error( new Error( err.message ) );
+					}
+					else{
+						res.status( 201 ).json({ message: "Column creation successful." });
+					}
+				});
 			});
 		}
 	}
@@ -92,6 +95,9 @@ module.exports.updateColumn = function( req, res ){
 				if( column ) {
 					if( req.body.name )
 						column.name = req.body.name;
+					
+					if( req.body.position )
+						column.position = req.body.position;
 					
 					column.updated_at = Date.now();
 					
