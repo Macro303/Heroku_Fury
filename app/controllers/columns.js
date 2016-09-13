@@ -42,7 +42,7 @@ module.exports.findAllProjectColumns = function( req, res ){
 	else{
 		var query = { projectParent:req.params.project };
 		
-		Column.find( query, 'name projectParent', function( err, columns ) {
+		Column.find( query, 'name projectParent position', function( err, columns ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
 				console.error( new Error( err.message ) );
@@ -64,7 +64,7 @@ module.exports.findColumn = function( req, res ){
 		res.status( 401 ).json({ message: "Unauthorised access." });
 	}
 	else{
-		Column.findById( req.params.column, 'name projectParent', function( err, column ) {
+		Column.findById( req.params.column, 'name projectParent position', function( err, column ) {
 			if( err ){
 				res.status( 500 ).json({ message: "Server error." });
 				console.error( new Error( err.message ) );
