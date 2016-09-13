@@ -40,13 +40,15 @@ module.exports.createProject = function( req, res ) {
 					var newCol = new Column({
 						name:'New',
 						projectParent: project._id,
-						userDeletable:false
+						userDeletable:false,
+						position:0
 					});
 					
 					var arcCol = new Column({
 						name:'Archived',
 						projectParent: project._id,
-						userDeletable:false
+						userDeletable:false,
+						position:1
 					});
 					
 					newCol.save( function( err ) {
