@@ -14,7 +14,7 @@ module.exports.createColumn = function( req, res ){
 			res.status( 400 ).json({ message: "All fields required." });
 		}
 		else{
-			Column.count( {}, function( err, count ){
+			Column.count( { projectParent:req.params.project }, function( err, count ){
 				var column = new Column({
 					name: req.body.name,
 					projectParent: req.params.project,
