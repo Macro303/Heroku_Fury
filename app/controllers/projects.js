@@ -38,14 +38,14 @@ module.exports.createProject = function( req, res ) {
 				}
 				else{
 					var newCol = new Column({
-						name:'New',
+						name:'new',
 						projectParent: project._id,
 						userDeletable:false,
 						position:0
 					});
 					
 					var arcCol = new Column({
-						name:'Archived',
+						name:'archived',
 						projectParent: project._id,
 						userDeletable:false,
 						position:1
