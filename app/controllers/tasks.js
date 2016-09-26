@@ -15,7 +15,7 @@ module.exports.createTask = function( req, res ){
 		}
 		else{
 			
-			Column.findOne( { projectParent:req.params.project, name:'New' }, function( err, column ){
+			Column.findOne( { projectParent:req.params.project, name:'new' }, function( err, column ){
 				if( err ){
 					res.status( 500 ).json({ message: "Server error." });
 					console.error( new Error( err.message ) );
@@ -43,7 +43,7 @@ module.exports.createTask = function( req, res ){
 					}
 					else{
 						res.status( 500 ).json({ message: "Server error." });
-						console.error( new Error( err.message ) );
+						console.error( new Error( "New Column not found" ) );
 					}
 				}
 			});
