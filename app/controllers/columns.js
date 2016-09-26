@@ -131,7 +131,7 @@ module.exports.deleteColumn = function( req, res ){
 			}
 			else{
 				if( column ){
-					Column.findOne( { name:'New', projectParent:req.params.project }, function( err, newColumn ){
+					Column.findOne( { name:'new', projectParent:req.params.project }, function( err, newColumn ){
 						if( err ){
 							res.status( 500 ).json({ message: "Server error." });
 							console.error( new Error( err.message ) );
